@@ -1,0 +1,9 @@
+# simplicity studio workspace
+.metadata/
+outgoing/
+
+# simplicity studio project
+*/GNU ARM v7.2.1 - Debug/
+*/CMSIS/
+*/emlib/
+*/serial/

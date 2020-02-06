@@ -47,6 +47,7 @@ void app_peripheral_setup(void){
 	gpio_open();
 	app_letimer_pwm_open(PWM_PER, PWM_ACT_PER);
 	scheduler_open();
+	sleep_open();
 }
 
 
@@ -107,6 +108,7 @@ void app_letimer_pwm_open(float period, float act_period){
 void scheduled_letimer0_uf_evt(void){
 	EFM_ASSERT(get_scheduled_events() & LETIMER0_UF_EVT);
 	remove_scheduled_event(LETIMER0_UF_EVT);
+
 
 }
 

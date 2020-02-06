@@ -1,20 +1,25 @@
 //***********************************************************************************
 // Include files
 //***********************************************************************************
-#ifndef SCHEDULER_GUARD_H
-#define	SCHEDULER_GUARD_H
+#ifndef SRC_HEADER_FILES_SLEEP_ROUTINES_H_
+#define SRC_HEADER_FILES_SLEEP_ROUTINES_H_
 
-#include <stdint.h>
+#include "em_emu.h"s
+#include "em_int.h"
 #include "em_assert.h"
+#include "em_core.h"
 
-
-
-#endif
+#endif /* SRC_HEADER_FILES_SLEEP_ROUTINES_H_ */
 
 //***********************************************************************************
 // defined files
 //***********************************************************************************
-
+#define		EM0						0
+#define		EM1						1
+#define		EM2						2
+#define		EM3						3
+#define		EM4						4
+#define		MAX_ENERGY_MODES		5
 
 //***********************************************************************************
 // global variables
@@ -24,9 +29,8 @@
 //***********************************************************************************
 // function prototypes
 //***********************************************************************************
-void scheduler_open(void);
-void add_scheduled_event(uint32_t event);
-void remove_scheduled_event(uint32_t event);
-uint32_t get_scheduled_events(void);
-
-
+void sleep_open(void);
+void sleep_block_mode(uint32_t EM);
+void sleep_unblock_mode(uint32_t EM);
+void enter_sleep(void);
+uint32_t current_block_energy_mode(void);

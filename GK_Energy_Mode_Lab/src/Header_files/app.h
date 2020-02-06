@@ -30,4 +30,6 @@
 //***********************************************************************************
 void app_peripheral_setup(void);
 void app_letimer_pwm_open(float period, float act_period);
-
+void scheduled_letimer0_uf_evt(void);
+void scheduled_letimer0_comp0_evt(void);
+void scheduled_letimer0_comp1_evt(void);

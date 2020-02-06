@@ -31,6 +31,7 @@
 /* The developer's include statements */
 #include "main.h"
 #include "app.h"
+#include "scheduler.h"
 
 
 int main(void)
@@ -59,11 +60,22 @@ int main(void)
   /* Call application program to open / initialize all required peripheral */
   app_peripheral_setup();
 
+
   /* Call to start the LETIMER operation */
   letimer_start(LETIMER0, true);
 
   /* Infinite blink loop */
   while (1) {
 	  EMU_EnterEM2(true);
+	  if(get_scheduled_events()&LETIMER0_UF_EVT){
+		  scheduled_letimer0_uf_evt();
+	  }
+	  if(get_scheduled_events()&LETIMER0_COMP0_EVT){
+		  scheduled_letimer0_comp0_evt();
+	  }
+	  if(get_scheduled_events()&LETIMER0_COMP1_EVT){
+	  	  scheduled_letimer0_comp1_evt();
+	  }
+
   }
 }

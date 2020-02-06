@@ -19,6 +19,7 @@
 
 //** User/developer include files
 #include "letimer.h"
+#include "scheduler.h"
 
 //***********************************************************************************
 // defined files
@@ -182,11 +183,14 @@ void LETIMER0_IRQHandler(void){
 	LETIMER0->IFC = int_flag;
 	if(int_flag & LETIMER_IF_COMP0){
 		EFM_ASSERT(!(LETIMER0->IF & LETIMER_IF_COMP0));
+		add_scheduled_event(scheduled_comp0_evt);
 	}
 	if(int_flag & LETIMER_IF_COMP1){
 		EFM_ASSERT(!(LETIMER0->IF & LETIMER_IF_COMP1));
+		add_scheduled_event(scheduled_comp1_evt);
 	}
 	if(int_flag & LETIMER_IF_UF){
 		EFM_ASSERT(!(LETIMER0->IF & LETIMER_IF_UF));
+		add_scheduled_event(scheduled_uf_evt);
 	}
 }

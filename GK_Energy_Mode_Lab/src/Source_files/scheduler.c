@@ -17,6 +17,16 @@
 #include "scheduler.h"
 
 //***********************************************************************************
+// defined files
+//***********************************************************************************
+#define CLEAR_SCHEDULER 0
+
+//***********************************************************************************
+// global variables
+//***********************************************************************************
+
+
+//***********************************************************************************
 // private variables
 //***********************************************************************************
 static unsigned int event_scheduled;
@@ -38,7 +48,7 @@ static unsigned int event_scheduled;
  ******************************************************************************/
 
 void scheduler_open(void){
-	event_scheduled = 0;
+	event_scheduled = CLEAR_SCHEDULER;
 }
 
 /***************************************************************************//**
@@ -49,7 +59,7 @@ void scheduler_open(void){
  * 	 This routine adds an event to the #event_scheduled variable
  *
  * @note
- * 	This only adds events, cannot clear or remove them.
+ * 	This is atomic.
  *
  * @param[in] event
  * 	A 32 bit integer that contains all events that you want to add.
@@ -57,7 +67,9 @@ void scheduler_open(void){
  ******************************************************************************/
 
 void add_scheduled_event(uint32_t event){
+	__disable_irq();
 	event_scheduled |= event;
+	__enable_irq();
 }
 
 /***************************************************************************//**
@@ -68,7 +80,7 @@ void add_scheduled_event(uint32_t event){
  * 	 This routine removes an event to the #event_scheduled variable
  *
  * @note
- * 	This only removes events.
+ * 	This is atomic.
  *
  * @param[in] event
  * 	A 32 bit integer that contains all events that you want to remove.
@@ -76,7 +88,9 @@ void add_scheduled_event(uint32_t event){
  ******************************************************************************/
 
 void remove_scheduled_event(uint32_t event){
+	__disable_irq();
 	event_scheduled &= ~event;
+	__enable_irq();
 }
 
 
@@ -92,6 +106,6 @@ void remove_scheduled_event(uint32_t event){
  *
  ******************************************************************************/
 
-uint32_t get_scheduled_event(void){
+uint32_t get_scheduled_events(void){
 	return event_scheduled;
 }

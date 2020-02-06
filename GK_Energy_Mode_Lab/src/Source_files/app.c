@@ -12,6 +12,7 @@
 //***********************************************************************************
 #include "app.h"
 #include "letimer.h"
+#include "scheduler.h"
 
 
 //***********************************************************************************
@@ -45,6 +46,7 @@ void app_peripheral_setup(void){
 	cmu_open();
 	gpio_open();
 	app_letimer_pwm_open(PWM_PER, PWM_ACT_PER);
+	scheduler_open();
 }
 
 
@@ -76,7 +78,7 @@ void app_letimer_pwm_open(float period, float act_period){
 	APP_LETIMER_PWM_TypeDef letimer_pwm_struct;
 	letimer_pwm_struct.active_period = act_period;
 	letimer_pwm_struct.period = period;
-	letimer_pwm_struct.debugRun = true;
+	letimer_pwm_struct.debugRun = false;
 	letimer_pwm_struct.enable = false;
 	letimer_pwm_struct.out_pin_0_en = LETIMER0_OUT0_EN;
 	letimer_pwm_struct.out_pin_1_en = LETIMER0_OUT1_EN;
@@ -93,3 +95,48 @@ void app_letimer_pwm_open(float period, float act_period){
 }
 
 
+/***************************************************************************//**
+ * @brief
+ *	Handles the letimer0 underflow event
+ *
+ * @details
+ *	This function clears the scheduled event and then handles the underflow event.
+ *
+ *
+ ******************************************************************************/
+void scheduled_letimer0_uf_evt(void){
+	EFM_ASSERT(get_scheduled_events() & LETIMER0_UF_EVT);
+	remove_scheduled_event(LETIMER0_UF_EVT);
+
+}
+
+/***************************************************************************//**
+ * @brief
+ *	Handles the letimer0 comp0 event
+ *
+ * @details
+ *	This function clears the scheduled event and then handles the comp0 event.
+ *
+ *
+ ******************************************************************************/
+void scheduled_letimer0_comp0_evt(void){
+	EFM_ASSERT(get_scheduled_events() & LETIMER0_COMP0_EVT);
+	remove_scheduled_event(LETIMER0_COMP0_EVT);
+	EFM_ASSERT(false);
+}
+
+/***************************************************************************//**
+ * @brief
+ *	Handles the letimer0 comp1 event
+ *
+ * @details
+ *	This function clears the scheduled event and then handles the comp1 event.
+ *
+ *
+ ******************************************************************************/
+void scheduled_letimer0_comp1_evt(void){
+	EFM_ASSERT(get_scheduled_events() & LETIMER0_COMP1_EVT);
+	remove_scheduled_event(LETIMER0_COMP1_EVT);
+	EFM_ASSERT(false);
+
+}

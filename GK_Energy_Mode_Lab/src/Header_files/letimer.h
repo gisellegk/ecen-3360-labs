@@ -2,11 +2,13 @@
 // Include files
 //***********************************************************************************
 #include "em_letimer.h"
+#include "sleep_routines.h"
 
 //***********************************************************************************
 // defined files
 //***********************************************************************************
 #define LETIMER_HZ		1000			// Utilizing ULFRCO oscillator for LETIMERs
+#define LETIMER_EM 		EM4 			// Using the ULFRCO, block from entering EM4
 
 //***********************************************************************************
 // global variables

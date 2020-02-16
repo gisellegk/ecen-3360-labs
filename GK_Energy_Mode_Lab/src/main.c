@@ -66,7 +66,10 @@ int main(void)
 
   /* Infinite blink loop */
   while (1) {
-	  EMU_EnterEM2(true);
+	  //EMU_EnterEM2(true);
+	  if(!get_scheduled_events()) enter_sleep();
+
+
 	  if(get_scheduled_events()&LETIMER0_UF_EVT){
 		  scheduled_letimer0_uf_evt();
 	  }

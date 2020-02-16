@@ -109,7 +109,13 @@ void scheduled_letimer0_uf_evt(void){
 	EFM_ASSERT(get_scheduled_events() & LETIMER0_UF_EVT);
 	remove_scheduled_event(LETIMER0_UF_EVT);
 
-
+	uint32_t currentEnergyMode = current_block_energy_mode();
+	sleep_unblock_mode(currentEnergyMode);
+	if(currentEnergyMode < 4) {
+		sleep_block_mode(currentEnergyMode + 1);
+	} else {
+		sleep_block_mode(EM0);
+	}
 }
 
 /***************************************************************************//**

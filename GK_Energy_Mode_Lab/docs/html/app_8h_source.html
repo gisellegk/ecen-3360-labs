@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GK_PWM_SP20: C:/Users/ericsims/SimplicityStudio/v4_workspace/GK_PWM_SP20_v7.2/src/Header_files/app.h Source File</title>
+<title>GK Energy Mode Lab: C:/Users/erics/Desktop/classes/ecen-3360-labs/GK_Energy_Mode_Lab/src/Header_files/app.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,9 +25,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">GK_PWM_SP20
+   <div id="projectname">GK Energy Mode Lab
    </div>
-   <div id="projectbrief">DDL Lab 2</div>
+   <div id="projectbrief">DDL Lab 3</div>
   </td>
  </tr>
  </tbody>
@@ -104,22 +104,30 @@ $(document).ready(function(){initNavTree('app_8h_source.html',''); initResizable
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define     LETIMER0_ROUTE_OUT1 0</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#define     LETIMER0_OUT1_EN    false</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">//***********************************************************************************</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// global variables</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">//***********************************************************************************</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define     LETIMER0_COMP0_EVT  0x00000001</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#define     LETIMER0_COMP1_EVT  0x00000002</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#define     LETIMER0_UF_EVT     0x00000004</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">//***********************************************************************************</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// global variables</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">//***********************************************************************************</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// function prototypes</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">//***********************************************************************************</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">void</span> <a class="code" href="app_8c.html#ab8cdb39575ad0f98ace1c6fbd9c54b83">app_peripheral_setup</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordtype">void</span> <a class="code" href="app_8c.html#a076d660ccc0fff5d7e829bade7f667a7">app_letimer_pwm_open</a>(<span class="keywordtype">float</span> period, <span class="keywordtype">float</span> act_period);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">//***********************************************************************************</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">// function prototypes</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">//***********************************************************************************</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordtype">void</span> <a class="code" href="app_8c.html#ab8cdb39575ad0f98ace1c6fbd9c54b83">app_peripheral_setup</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">void</span> <a class="code" href="app_8c.html#a076d660ccc0fff5d7e829bade7f667a7">app_letimer_pwm_open</a>(<span class="keywordtype">float</span> period, <span class="keywordtype">float</span> act_period);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">void</span> <a class="code" href="app_8c.html#ac9be61e62f5591d79373d55750d3b907">scheduled_letimer0_uf_evt</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> <a class="code" href="app_8c.html#af440dd908c925e28e105d9bcf8516130">scheduled_letimer0_comp0_evt</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> <a class="code" href="app_8c.html#add6978dcac372381b53476f81d10ea85">scheduled_letimer0_comp1_evt</a>(<span class="keywordtype">void</span>);</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aapp_8c_html_a076d660ccc0fff5d7e829bade7f667a7"><div class="ttname"><a href="app_8c.html#a076d660ccc0fff5d7e829bade7f667a7">app_letimer_pwm_open</a></div><div class="ttdeci">void app_letimer_pwm_open(float period, float act_period)</div><div class="ttdoc">Function to open a PWM signal out of LETIMER0 at a particular frequency duty cycle....</div><div class="ttdef"><b>Definition:</b> app.c:73</div></div>
-<div class="ttc" id="aapp_8c_html_ab8cdb39575ad0f98ace1c6fbd9c54b83"><div class="ttname"><a href="app_8c.html#ab8cdb39575ad0f98ace1c6fbd9c54b83">app_peripheral_setup</a></div><div class="ttdeci">void app_peripheral_setup(void)</div><div class="ttdoc">Used to initialize all peripherals for this application.</div><div class="ttdef"><b>Definition:</b> app.c:44</div></div>
+<div class="ttc" id="aapp_8c_html_af440dd908c925e28e105d9bcf8516130"><div class="ttname"><a href="app_8c.html#af440dd908c925e28e105d9bcf8516130">scheduled_letimer0_comp0_evt</a></div><div class="ttdeci">void scheduled_letimer0_comp0_evt(void)</div><div class="ttdoc">Handles the letimer0 comp0 event.</div><div class="ttdef"><b>Definition:</b> app.c:130</div></div>
+<div class="ttc" id="aapp_8c_html_ac9be61e62f5591d79373d55750d3b907"><div class="ttname"><a href="app_8c.html#ac9be61e62f5591d79373d55750d3b907">scheduled_letimer0_uf_evt</a></div><div class="ttdeci">void scheduled_letimer0_uf_evt(void)</div><div class="ttdoc">Handles the letimer0 underflow event.</div><div class="ttdef"><b>Definition:</b> app.c:108</div></div>
+<div class="ttc" id="aapp_8c_html_add6978dcac372381b53476f81d10ea85"><div class="ttname"><a href="app_8c.html#add6978dcac372381b53476f81d10ea85">scheduled_letimer0_comp1_evt</a></div><div class="ttdeci">void scheduled_letimer0_comp1_evt(void)</div><div class="ttdoc">Handles the letimer0 comp1 event.</div><div class="ttdef"><b>Definition:</b> app.c:145</div></div>
+<div class="ttc" id="aapp_8c_html_a076d660ccc0fff5d7e829bade7f667a7"><div class="ttname"><a href="app_8c.html#a076d660ccc0fff5d7e829bade7f667a7">app_letimer_pwm_open</a></div><div class="ttdeci">void app_letimer_pwm_open(float period, float act_period)</div><div class="ttdoc">Function to open a PWM signal out of LETIMER0 at a particular frequency duty cycle....</div><div class="ttdef"><b>Definition:</b> app.c:76</div></div>
+<div class="ttc" id="aapp_8c_html_ab8cdb39575ad0f98ace1c6fbd9c54b83"><div class="ttname"><a href="app_8c.html#ab8cdb39575ad0f98ace1c6fbd9c54b83">app_peripheral_setup</a></div><div class="ttdeci">void app_peripheral_setup(void)</div><div class="ttdoc">Used to initialize all peripherals for this application.</div><div class="ttdef"><b>Definition:</b> app.c:45</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

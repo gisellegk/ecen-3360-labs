@@ -57,7 +57,7 @@
 //***********************************************************************************
 // private variables
 //***********************************************************************************
-static int lowest_energy_mode[MAX_ENERGY_MODES];s
+static int lowest_energy_mode[MAX_ENERGY_MODES];
 
 //***********************************************************************************
 // functions
@@ -118,7 +118,7 @@ void sleep_unblock_mode(uint32_t EM){
  *   Enter Sleep
  *
  * @details
- *  FUnction to enter sleep mode
+ *  Function to enter sleep mode
  *
  ******************************************************************************/
 void enter_sleep(void){
@@ -151,5 +151,5 @@ uint32_t current_block_energy_mode(void){
 	for(i = 0; i < MAX_ENERGY_MODES; i++ ){
 		if(lowest_energy_mode[i] != 0) return i;
 	}
-	return -1;
+	return MAX_ENERGY_MODES-1;
 }

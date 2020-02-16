@@ -75,6 +75,8 @@ void letimer_pwm_open(LETIMER_TypeDef *letimer, APP_LETIMER_PWM_TypeDef *app_let
 		CMU_ClockEnable(cmuClock_LETIMER0, true);
 	}
 
+	letimer_start(letimer, false);
+
 	/* Use EFM_ASSERT statements to verify whether the LETIMER clock tree is properly
 	 * configured and enabled
 	 */
@@ -115,7 +117,6 @@ void letimer_pwm_open(LETIMER_TypeDef *letimer, APP_LETIMER_PWM_TypeDef *app_let
 	letimer->ROUTEPEN = ((app_letimer_struct->out_pin_1_en << 1) | app_letimer_struct->out_pin_0_en);
 	letimer->ROUTELOC0 = ((app_letimer_struct->out_pin_route1 << 8) | app_letimer_struct->out_pin_route0);
 
-
 	/* Enable interrupts now */
 
 	uint32_t interrupts = (app_letimer_struct->uf_irq_enable << 2 )
@@ -130,8 +131,13 @@ void letimer_pwm_open(LETIMER_TypeDef *letimer, APP_LETIMER_PWM_TypeDef *app_let
 	scheduled_comp1_evt = app_letimer_struct->comp1_evt;
 	scheduled_uf_evt = app_letimer_struct->uf_evt;
 
+
+
 	/* We will not enable the LETIMER0 at this time */
-	// okay
+
+	if(letimer->STATUS & LETIMER_STATUS_RUNNING){
+		sleep_block_mode(LETIMER_EM); // add EM4 to sleep block.
+	}
 
 	while(letimer->SYNCBUSY);
 
@@ -160,7 +166,13 @@ void letimer_pwm_open(LETIMER_TypeDef *letimer, APP_LETIMER_PWM_TypeDef *app_let
  *
  ******************************************************************************/
 void letimer_start(LETIMER_TypeDef *letimer, bool enable){
+	if(enable && !(letimer->STATUS & LETIMER_STATUS_RUNNING)){ // if we want to enable it and it is currently not running
+		sleep_block_mode(LETIMER_EM); // block EM4
+	} else if(!enable && (letimer->STATUS & LETIMER_STATUS_RUNNING)){
+		sleep_unblock_mode(LETIMER_EM);
+	}
 	LETIMER_Enable(letimer, enable);
+	while(letimer->SYNCBUSY);
 }
 
 /***************************************************************************//**

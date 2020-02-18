@@ -1,3 +1,6 @@
+# exported files
+*.zip
+
 # simplicity studio workspace
 .metadata/
 outgoing/

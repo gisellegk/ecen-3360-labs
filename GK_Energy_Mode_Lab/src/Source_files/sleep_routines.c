@@ -4,7 +4,7 @@
  * @date February 6th, 2020
  * @brief Contains all sleep routine functions
  *
- *
+ * @details
  ***************************************************************************
  * @section License
  * <b>(C) Copyright 2015 Silicon Labs, http://www.silabs.com</b>

@@ -13,7 +13,7 @@
 #include "app.h"
 #include "letimer.h"
 #include "scheduler.h"
-
+#include "SI7021.h"
 
 //***********************************************************************************
 // defined files
@@ -48,6 +48,7 @@ void app_peripheral_setup(void){
 	app_letimer_pwm_open(PWM_PER, PWM_ACT_PER);
 	scheduler_open();
 	sleep_open();
+	si7021_i2c_open();
 }
 
 

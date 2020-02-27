@@ -15,8 +15,6 @@
 // global variables
 //***********************************************************************************
 typedef struct {
-	//	I2C_TypeDef* i2c;
-	//	const I2C_Init_TypeDef* i2c_init;
 
 	// I2C_Init_TypeDef Struct Values
 	bool 					enable;				// enable I2C upon completion of open
@@ -31,7 +29,6 @@ typedef struct {
 	bool			sda_en;		// enable out 0 route
 	bool			scl_en;		// enable out 1 route
 
-
 } I2C_OPEN_STRUCT ;
 
 typedef struct {
@@ -42,15 +39,24 @@ typedef struct {
 } I2C_IO_STRUCT ;
 
 typedef struct {
+	uint8_t			state; // what is current state
+	I2C_TypeDef 	i2c; // which i2c bus are we using
+	uint8_t 		device_address;
+	bool			read; // read = 1 write = 0
+	uint8_t 		command_code; // command address
+	uint8_t* 		data_arr;
+	uint8_t			num_bytes; // = 3 with checksum
+	uint32_t		event; // for scheduler
+} I2C_PAYLOAD_STRUCT ;
 
-} I2C_PAYLOAD ;
 
 //***********************************************************************************
 // function prototypes
 //***********************************************************************************
 
-void i2c_open(I2C_TypeDef *i2c, I2C_OPEN_STRUCT *i2c_open);
-void i2c_bus_reset();
-
+void i2c_open(I2C_TypeDef *i2c, I2C_OPEN_STRUCT *i2c_open, I2C_IO_STRUCT *i2c_io);
+void i2c_bus_reset(I2C_TypeDef *i2c, I2C_IO_STRUCT *i2c_io);
+void I2C0_IRQHandler(void);
+void i2c_start();
 
 #endif /* SRC_HEADER_FILES_I2C_H_ */

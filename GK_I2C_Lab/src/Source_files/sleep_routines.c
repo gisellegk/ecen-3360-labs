@@ -92,8 +92,10 @@ void sleep_open(void){
  *
  ******************************************************************************/
 void sleep_block_mode(uint32_t EM){
+	__disable_irq();
 	lowest_energy_mode[EM]++;
 	EFM_ASSERT(lowest_energy_mode[EM] < 10);
+	__enable_irq();
 }
 
 /***************************************************************************//**
@@ -109,8 +111,10 @@ void sleep_block_mode(uint32_t EM){
  *
  ******************************************************************************/
 void sleep_unblock_mode(uint32_t EM){
+	__disable_irq();
 	lowest_energy_mode[EM]--;
 	EFM_ASSERT(lowest_energy_mode[EM] >= 0);
+	__enable_irq();
 }
 
 /***************************************************************************//**

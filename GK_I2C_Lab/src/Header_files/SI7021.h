@@ -22,12 +22,15 @@
 #define 	SI7021_I2C				I2C0  // PG i2c peripheral
 #define 	SI7021_REF_FREQ			0 // HF peripheral clock
 
-
+#define 	SI7021_NUM_BYTES_TEMP_CHECKSUM		3
+#define		SI7021_NUM_BYTES_TEMP_NOCHECKSUM	2
 
 //***********************************************************************************
 // global variables
 //***********************************************************************************
 
 void si7021_i2c_open();
+void si7021_read(uint32_t event);
+float si7021_last_temp_f();
 
 #endif /* SRC_HEADER_FILES_SI7021_H_ */

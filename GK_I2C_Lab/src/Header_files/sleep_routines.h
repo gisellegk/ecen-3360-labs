@@ -30,7 +30,7 @@
 #ifndef SRC_HEADER_FILES_SLEEP_ROUTINES_H_
 #define SRC_HEADER_FILES_SLEEP_ROUTINES_H_
 
-#include "em_emu.h"s
+#include "em_emu.h"
 #include "em_int.h"
 #include "em_assert.h"
 #include "em_core.h"

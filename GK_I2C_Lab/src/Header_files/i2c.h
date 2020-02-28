@@ -9,11 +9,23 @@
 //***********************************************************************************
 // defined files
 //***********************************************************************************
-
+#define RESET_TOGGLE_NUMBER 	18
+#define I2C_EM_BLOCK 			EM2 // cannot enter EM2
+#define I2C_WRITE				0
+#define I2C_READ				1
 
 //***********************************************************************************
 // global variables
 //***********************************************************************************
+typedef enum {
+	IDLE,
+	REQUEST_TEMP_SENSOR,
+	REQUEST_MEASUREMENT,
+	WAIT_FOR_CONVERSION,
+	READ_DATA,
+	CLOSE_FUNCTION
+} State;
+
 typedef struct {
 
 	// I2C_Init_TypeDef Struct Values
@@ -39,13 +51,14 @@ typedef struct {
 } I2C_IO_STRUCT ;
 
 typedef struct {
-	uint8_t			state; // what is current state
-	I2C_TypeDef 	i2c; // which i2c bus are we using
+	State			state; // what is current state
+	I2C_TypeDef* 	i2c; // which i2c bus are we using
 	uint8_t 		device_address;
 	bool			read; // read = 1 write = 0
 	uint8_t 		command_code; // command address
-	uint8_t* 		data_arr;
-	uint8_t			num_bytes; // = 3 with checksum
+	uint8_t* 		data_arr; // where to save it
+	uint8_t			data_arr_length; // = 3 with checksum
+	uint8_t			num_data_saved;
 	uint32_t		event; // for scheduler
 } I2C_PAYLOAD_STRUCT ;
 
@@ -57,6 +70,6 @@ typedef struct {
 void i2c_open(I2C_TypeDef *i2c, I2C_OPEN_STRUCT *i2c_open, I2C_IO_STRUCT *i2c_io);
 void i2c_bus_reset(I2C_TypeDef *i2c, I2C_IO_STRUCT *i2c_io);
 void I2C0_IRQHandler(void);
-void i2c_start();
+void i2c_start(I2C_TypeDef *i2c, uint8_t device_address, bool read, uint8_t command_code, uint8_t* data_arr, uint8_t data_arr_length, uint32_t event);
 
 #endif /* SRC_HEADER_FILES_I2C_H_ */

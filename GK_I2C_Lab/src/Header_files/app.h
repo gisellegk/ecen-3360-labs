@@ -19,6 +19,7 @@
 #define 	LETIMER0_COMP0_EVT	0x00000001
 #define 	LETIMER0_COMP1_EVT	0x00000002
 #define 	LETIMER0_UF_EVT		0x00000004
+#define 	SI7021_READ_EVT		0x00000008
 
 
 //***********************************************************************************

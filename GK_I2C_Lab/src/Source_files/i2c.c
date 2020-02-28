@@ -103,7 +103,8 @@ void i2c_open(I2C_TypeDef *i2c, I2C_OPEN_STRUCT *i2c_open, I2C_IO_STRUCT *i2c_io
 	// set interrupt flag bits: ACK, NACK, and RXDATAV.
 	uint32_t interrupts = (1 << _I2C_IEN_ACK_SHIFT)
 						| (1 << _I2C_IEN_NACK_SHIFT)
-						| (1 << _I2C_IEN_RXDATAV_SHIFT);
+						| (1 << _I2C_IEN_RXDATAV_SHIFT)
+						| (1 << _I2C_IEN_MSTOP_SHIFT);
 
 	// clear interrupt flags
 	I2C_IntClear(i2c, interrupts);
@@ -207,6 +208,7 @@ void i2c_start(I2C_TypeDef *i2c, uint8_t device_address, bool read, uint8_t comm
 	i2c_payload.num_data_saved = 0;
 
 	i2c_payload.state = REQUEST_TEMP_SENSOR;
+	i2c_payload.event = event;
 
 	// Start bit, Device address, read bit.
 	i2c_payload.i2c->CMD = I2C_CMD_START;
@@ -289,7 +291,8 @@ static void i2c_nack(){
 			// request data again
 			if(i2c_payload.read){
 				i2c_payload.i2c->CMD = I2C_CMD_START;
-				i2c_payload.i2c->TXDATA = (i2c_payload.device_address << 1) | I2C_READ;
+				uint8_t a = (i2c_payload.device_address << 1) | I2C_READ;
+				i2c_payload.i2c->TXDATA = a;
 			}
 			break;
 		case READ_DATA:
@@ -386,7 +389,7 @@ static void i2c_mstop(){
 			break;
 		case CLOSE_FUNCTION:
 			i2c_payload.state = IDLE;
-			sleep_block_mode(I2C_EM_BLOCK); // allow sleep
+			sleep_unblock_mode(I2C_EM_BLOCK); // allow sleep
 			add_scheduled_event(i2c_payload.event); // schedule event
 			break;
 		default:

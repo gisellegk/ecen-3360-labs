@@ -94,6 +94,7 @@ void si7021_i2c_open()
  ******************************************************************************/
 void si7021_read(uint32_t event){
 	i2c_start(SI7021_I2C, SI7021_DEV_ADDR, I2C_READ, SI7021_TEMP_NO_HOLD, data, SI7021_NUM_BYTES_TEMP_CHECKSUM, event);
+	EFM_ASSERT(true);
 }
 
 /***************************************************************************//**
@@ -112,6 +113,6 @@ void si7021_read(uint32_t event){
  ******************************************************************************/
 float si7021_last_temp_f(){
 	uint16_t temp_code = (data[0] << 8) | data[1];
-	float temp_c = (175.72*temp_code / 65536) - 46.85;
-	return (temp_c * 1.8 + 32);
+	float temp_c = ((float)175.72*(float)temp_code / (float)65536) - (float)46.85;
+	return (temp_c * (float)1.8 + (float)32);
 }

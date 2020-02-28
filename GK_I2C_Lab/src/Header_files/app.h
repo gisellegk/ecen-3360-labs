@@ -12,14 +12,14 @@
 #define		PWM_PER				3.1		// PWM period in seconds
 #define		PWM_ACT_PER			0.10	// PWM active period in seconds
 #define		LETIMER0_ROUTE_OUT0	LETIMER_ROUTELOC0_OUT0LOC_LOC28
-#define		LETIMER0_OUT0_EN	true
+#define		LETIMER0_OUT0_EN	false
 #define		LETIMER0_ROUTE_OUT1	0
 #define		LETIMER0_OUT1_EN	false
 
 #define 	LETIMER0_COMP0_EVT	0x00000001
 #define 	LETIMER0_COMP1_EVT	0x00000002
 #define 	LETIMER0_UF_EVT		0x00000004
-#define 	SI7021_READ_EVT		0x00000008
+#define 	SI7021_TEMP_READ_COMPLETE_EVT		0x00000008
 
 
 //***********************************************************************************
@@ -35,3 +35,4 @@ void app_letimer_pwm_open(float period, float act_period);
 void scheduled_letimer0_uf_evt(void);
 void scheduled_letimer0_comp0_evt(void);
 void scheduled_letimer0_comp1_evt(void);
+void scheduled_si7021_read_complete_evt(void);

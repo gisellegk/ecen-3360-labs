@@ -109,14 +109,7 @@ void app_letimer_pwm_open(float period, float act_period){
 void scheduled_letimer0_uf_evt(void){
 	EFM_ASSERT(get_scheduled_events() & LETIMER0_UF_EVT);
 	remove_scheduled_event(LETIMER0_UF_EVT);
-
-	uint32_t currentEnergyMode = current_block_energy_mode();
-	sleep_unblock_mode(currentEnergyMode);
-	if(currentEnergyMode < 4) {
-		sleep_block_mode(currentEnergyMode + 1);
-	} else {
-		sleep_block_mode(EM0);
-	}
+	si7021_read(SI7021_TEMP_READ_COMPLETE_EVT);
 }
 
 /***************************************************************************//**
@@ -149,3 +142,27 @@ void scheduled_letimer0_comp1_evt(void){
 	EFM_ASSERT(false);
 
 }
+
+/***************************************************************************//**
+ * @brief
+ *	Handles the SI7021 Temperature Read Complete event
+ *
+ * @details
+ *	This function clears the scheduled event and then handles the
+ *	Temperature Read Complete event.
+ *
+ *
+ ******************************************************************************/
+void scheduled_si7021_read_complete_evt(void){
+	EFM_ASSERT(get_scheduled_events() & SI7021_TEMP_READ_COMPLETE_EVT);
+	remove_scheduled_event(SI7021_TEMP_READ_COMPLETE_EVT);
+	float temp = si7021_last_temp_f();
+	if(temp >= 80.0) {
+		// turn on GPIO pin LED 1
+		GPIO_PinOutSet(LED1_port, LED1_pin);
+	} else {
+		// turn off LED 1
+		GPIO_PinOutClear(LED1_port, LED1_pin);
+	}
+}
+

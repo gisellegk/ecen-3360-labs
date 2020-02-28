@@ -22,7 +22,7 @@
 #define 	SI7021_I2C				I2C0  // PG i2c peripheral
 #define 	SI7021_REF_FREQ			0 // HF peripheral clock
 
-#define 	SI7021_NUM_BYTES_TEMP_CHECKSUM		3
+#define 	SI7021_NUM_BYTES_TEMP_CHECKSUM		6
 #define		SI7021_NUM_BYTES_TEMP_NOCHECKSUM	2
 
 //***********************************************************************************

@@ -79,6 +79,9 @@ int main(void)
 	  if(get_scheduled_events()&LETIMER0_COMP1_EVT){
 	  	  scheduled_letimer0_comp1_evt();
 	  }
+	  if(get_scheduled_events()&SI7021_TEMP_READ_COMPLETE_EVT){
+		  scheduled_si7021_read_complete_evt();
+	  }
 
   }
 }

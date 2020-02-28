@@ -33,36 +33,44 @@
 //***********************************************************************************
 // private variables
 //***********************************************************************************
-
-
 static I2C_PAYLOAD_STRUCT i2c_payload;
 
 
 //***********************************************************************************
-// functions
+// private function prototypes
 //***********************************************************************************
 static void i2c_ack();
 static void i2c_nack();
 static void i2c_rxdatav();
 static void i2c_mstop();
 
+//***********************************************************************************
+// functions
+//***********************************************************************************
+
 /***************************************************************************//**
  * @brief
- *
+ *	Function to open an i2c bus.
  *
  * @details
- *
+ *	This routine initializes an i2c bus and sets its state to IDLE.
  *
  * @note
- *
+ *	This function enables the interrupt flags ACK, NACK, RXDATATV and MSTOP.
  *
  * @param[in] i2c
+ * 	Pointer to the base peripheral address of the I2C peripheral being used. The
+ * 	Pearl Gecko has 2 I2C peripherals.
  *
+ * @param[in] i2c_open
+ * 	The struct that this routine will use to configure the I2C bus.
+ *
+ * @param[in] i2c_io
+ * 	The struct which specifies port and pin routing information for the I2C bus.
  *
  ******************************************************************************/
 void i2c_open(I2C_TypeDef *i2c, I2C_OPEN_STRUCT *i2c_open, I2C_IO_STRUCT *i2c_io){
 	I2C_Init_TypeDef init;
-	i2c_payload.state = IDLE; // start in idle mode
 
 	/*  Enable the routed clock to the I2C peripheral */
 	if(i2c == I2C0){
@@ -121,21 +129,27 @@ void i2c_open(I2C_TypeDef *i2c, I2C_OPEN_STRUCT *i2c_open, I2C_IO_STRUCT *i2c_io
 		// we only have i2c0 and i2c1
 	}
 	i2c_bus_reset(i2c, i2c_io);
-
+	i2c_payload.state = IDLE; // start in idle mode
 }
 
 /***************************************************************************//**
  * @brief
- *
+ *	Function to reset the I2C state machines.
  *
  * @details
- *
+ *	This function resets the state machines of both the Pearl Gecko and external
+ *	I2C devices connected to the bus.
  *
  * @note
- *
+ * 	This function resets the peripheral I2C devices by NACKing 9 times by manually
+ * 	clocking the SCK pin while leaving SDA in its default asserted state.
  *
  * @param[in] i2c
+ *	Pointer to the base peripheral address of the I2C peripheral being used. The
+ * 	Pearl Gecko has 2 I2C peripherals.
  *
+ * 	@param[in] i2c_io
+ * 	The struct which specifies port and pin routing information for the I2C bus.
  *
  ******************************************************************************/
 void i2c_bus_reset(I2C_TypeDef *i2c, I2C_IO_STRUCT *i2c_io){
@@ -150,15 +164,15 @@ void i2c_bus_reset(I2C_TypeDef *i2c, I2C_IO_STRUCT *i2c_io){
 }
 /***************************************************************************//**
  * @brief
- *
+ *	IRQ handler for I2C0
  *
  * @details
- *
+ *	This is an IRQ handler for I2C0.
  *
  * @note
+ *	This is currently configured to handle the interrupts for ACK, NACK, RXDATAV,
+ *	and MSTOP. Interrupts are enabled in the i2c_open function.
  *
- *
- * @param[in] i2c
  *
  *
  ******************************************************************************/
@@ -181,16 +195,42 @@ void I2C0_IRQHandler(void){
 
 /***************************************************************************//**
  * @brief
- *
+ *	Function to start an I2C read or write operation
  *
  * @details
+ *	Initializes the I2C payload which stores the state of the I2C operation.
+ *	All information required by the I2C state machine interacts with this
+ *	I2C payload struct.
  *
+ *	Once the payload is initialized, this function initiates the I2C operation
+ *	by entering the first state of the state machine
  *
- * @note
+ *	@note
+ *	This function must only be called if the state of the I2C peripheral and
+ *	the state of the I2C state machine are both in the idle state.
  *
  *
  * @param[in] i2c
+ *  Pointer to the base peripheral address of the I2C peripheral being used. The
+ * 	Pearl Gecko has 2 I2C peripherals.
  *
+ * 	@param[in] device_address
+ * 	 The 7 bit i2c slave device address of the peripheral device.
+ *
+ * 	@param[in] read
+ * 	 Boolean parameter indicating whether to start a read or write command
+ *
+ * 	@param[in] command_code
+ * 	 The 8 bit command code to write to the peripheral device.
+ *
+ * 	@param[in] data_arr
+ * 	 A pointer to an array to store data from read commands.
+ *
+ * 	@param[in] data_arr_length
+ * 	 the length of the array to store data (number of bytes).
+ *
+ * 	@param[in] event
+ * 	 The scheduler event associated with a completed i2c operation.
  *
  ******************************************************************************/
 
@@ -218,15 +258,12 @@ void i2c_start(I2C_TypeDef *i2c, uint8_t device_address, bool read, uint8_t comm
 
 /***************************************************************************//**
  * @brief
- *
+ *	Function that the I2C interrupt handler will call upon receiving
+ *	the I2C ACK interrupt
  *
  * @details
- *
- *
- * @note
- *
- *
- * @param[in] i2c
+ *	This function defines the behavior of the state machine in each state
+ *	when an ACK is received.
  *
  *
  ******************************************************************************/
@@ -264,15 +301,12 @@ static void i2c_ack(){
 
 /***************************************************************************//**
  * @brief
- *
+ *	Function that the I2C interrupt handler will call upon receiving
+ *	the I2C NACK interrupt
  *
  * @details
- *
- *
- * @note
- *
- *
- * @param[in] i2c
+ *	This function defines the behavior of the state machine in each state
+ *	when a NACK is received.
  *
  *
  ******************************************************************************/
@@ -308,15 +342,12 @@ static void i2c_nack(){
 }
 /***************************************************************************//**
  * @brief
- *
+ *	Function that the I2C interrupt handler will call upon receiving
+ *	the I2C RXDATAV interrupt
  *
  * @details
- *
- *
- * @note
- *
- *
- * @param[in] i2c
+ *	This function defines the behavior of the state machine in each state
+ *	when data becomes available in the receive buffer.
  *
  *
  ******************************************************************************/
@@ -358,15 +389,12 @@ static void i2c_rxdatav(){
 
 /***************************************************************************//**
  * @brief
- *
+ *	Function that the I2C interrupt handler will call upon receiving
+ *	the I2C MSTOP interrupt
  *
  * @details
- *
- *
- * @note
- *
- *
- * @param[in] i2c
+ *	This function defines the behavior of the state machine in each state
+ *	when a STOP condition has been successfully transmitted.
  *
  *
  ******************************************************************************/

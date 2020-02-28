@@ -39,15 +39,16 @@ static uint8_t data[SI7021_NUM_BYTES_TEMP_CHECKSUM];
 
 /***************************************************************************//**
  * @brief
+ * 	A function to open an I2C port for the SI7021 Temperature and Humidity Sensor
+ * 	onboard the Pearl Gecko Starter Kit.
  *
  *
  * @details
- *
- *
- * @note
- *
- *
- * @param[in] i2c
+ * 	This function creates an I2C IO Struct specifying the configuration of the SDA
+ * 	and SCL pins that connect the SI7021 to the EFM32PG12 on the Pearl Gecko
+ * 	Starter Kit board, and an I2C Open Struct specifying the I2C configuration
+ * 	necessary to interact with the SI7021 sensor. Then it opens the I2C bus using
+ * 	this information.
  *
  *
  ******************************************************************************/
@@ -80,35 +81,38 @@ void si7021_i2c_open()
 
 /***************************************************************************//**
  * @brief
- *
+ *	A function that requests the temperature to be read from the SI7021
+ *	Temperature and Humidity sensor.
  *
  * @details
- *
+ *	This function initiates a Measure Temperature command in No Hold Master Mode.
  *
  * @note
+ * This starts the I2C state machine.
  *
- *
- * @param[in] i2c
- *
+ * @param[in] event
+ * 	 The scheduler event associated with a completed Measure Temperature operation.
  *
  ******************************************************************************/
 void si7021_read(uint32_t event){
 	i2c_start(SI7021_I2C, SI7021_DEV_ADDR, I2C_READ, SI7021_TEMP_NO_HOLD, data, SI7021_NUM_BYTES_TEMP_CHECKSUM, event);
-	EFM_ASSERT(true);
 }
 
 /***************************************************************************//**
  * @brief
- *
+ *	A function which returns the most recently read temperature measurement.
  *
  * @details
- *
+ *	This function reads the raw temperature data received from the SI7021
+ *	Temperature and Humidity sensor, converts it into Celsius per the
+ *	data sheet specifications, and then converts it into Fahrenheit to return.
  *
  * @note
+ *	This should only be called upon the completion of the SI7021_TEMP_READ_COMPLETE_EVT
  *
  *
- * @param[in] i2c
- *
+ * @return
+ * 	the last received temperature, as a float, in degrees Fahrenheit.
  *
  ******************************************************************************/
 float si7021_last_temp_f(){

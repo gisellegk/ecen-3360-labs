@@ -19,8 +19,8 @@
 //***********************************************************************************
 typedef enum {
 	IDLE,
-	REQUEST_TEMP_SENSOR,
-	REQUEST_MEASUREMENT,
+	REQUEST_DEVICE,
+	WRITE_COMMAND_CODE,
 	WAIT_FOR_CONVERSION,
 	READ_DATA,
 	CLOSE_FUNCTION

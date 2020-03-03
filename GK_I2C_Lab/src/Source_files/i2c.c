@@ -247,7 +247,7 @@ void i2c_start(I2C_TypeDef *i2c, uint8_t device_address, bool read, uint8_t comm
 	i2c_payload.data_arr_length = data_arr_length;
 	i2c_payload.num_data_saved = 0;
 
-	i2c_payload.state = REQUEST_TEMP_SENSOR;
+	i2c_payload.state = REQUEST_DEVICE;
 	i2c_payload.event = event;
 
 	// Start bit, Device address, read bit.
@@ -272,12 +272,12 @@ static void i2c_ack(){
 		case IDLE:
 			EFM_ASSERT(false);
 			break;
-		case REQUEST_TEMP_SENSOR:
-			i2c_payload.state = REQUEST_MEASUREMENT;
+		case REQUEST_DEVICE:
+			i2c_payload.state = WRITE_COMMAND_CODE;
 			// send measurement command
 			i2c_payload.i2c->TXDATA = i2c_payload.command_code;
 			break;
-		case REQUEST_MEASUREMENT:
+		case WRITE_COMMAND_CODE:
 			if(i2c_payload.read){
 				i2c_payload.state = WAIT_FOR_CONVERSION;
 				i2c_payload.i2c->CMD = I2C_CMD_START;
@@ -315,10 +315,10 @@ static void i2c_nack(){
 		case IDLE:
 			EFM_ASSERT(false);
 			break;
-		case REQUEST_TEMP_SENSOR:
+		case REQUEST_DEVICE:
 			EFM_ASSERT(false);
 			break;
-		case REQUEST_MEASUREMENT:
+		case WRITE_COMMAND_CODE:
 			EFM_ASSERT(false);
 			break;
 		case WAIT_FOR_CONVERSION:
@@ -356,10 +356,10 @@ static void i2c_rxdatav(){
 		case IDLE:
 			EFM_ASSERT(false);
 			break;
-		case REQUEST_TEMP_SENSOR:
+		case REQUEST_DEVICE:
 			EFM_ASSERT(false);
 			break;
-		case REQUEST_MEASUREMENT:
+		case WRITE_COMMAND_CODE:
 			EFM_ASSERT(false);
 			break;
 		case WAIT_FOR_CONVERSION:
@@ -403,10 +403,10 @@ static void i2c_mstop(){
 		case IDLE:
 			EFM_ASSERT(false);
 			break;
-		case REQUEST_TEMP_SENSOR:
+		case REQUEST_DEVICE:
 			EFM_ASSERT(false);
 			break;
-		case REQUEST_MEASUREMENT:
+		case WRITE_COMMAND_CODE:
 			EFM_ASSERT(false);
 			break;
 		case WAIT_FOR_CONVERSION:

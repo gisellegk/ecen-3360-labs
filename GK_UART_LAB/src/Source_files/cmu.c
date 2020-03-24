@@ -33,7 +33,8 @@ void cmu_open(void){
 		// Route LF clock to the LF clock tree
 		// No requirement to enable the ULFRCO oscillator.  It is always enabled in EM0-4H
 
-		CMU_OscillatorEnable(cmuOsc_LFXO, false, false);		// Disable LFXO
+		CMU_OscillatorEnable(cmuOsc_LFXO, true, false);		// Enable LFXO for UART
+		CMU_ClockSelectSet(cmuClock_LFB, cmuSelect_LFXO);   // route LFXO to LFB clock tree
 		CMU_ClockSelectSet(cmuClock_LFA, cmuSelect_ULFRCO);	// route ULFRCO to proper Low Freq clock tree
 
 		CMU_ClockEnable(cmuClock_CORELE, true);					// Enable the Low Freq clock tree

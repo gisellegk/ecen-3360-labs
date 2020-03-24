@@ -41,4 +41,10 @@ void gpio_open(void){
 	GPIO_PinModeSet(SI7021_SCL_PORT, SI7021_SCL_PIN, gpioModeWiredAnd, SI7021_I2C_DEFAULT);
 	GPIO_PinModeSet(SI7021_SDA_PORT, SI7021_SDA_PIN, gpioModeWiredAnd, SI7021_I2C_DEFAULT);
 
+
+	// BLE Pin Configuration
+	GPIO_DriveStrengthSet(BLE_UART_TX_PORT, gpioDriveStrengthStrongAlternateWeak);
+	GPIO_PinModeSet(BLE_UART_TX_PORT, BLE_UART_TX_PIN, gpioModePushPull, BLE_DEFAULT);
+	GPIO_PinModeSet(BLE_UART_RX_PORT, BLE_UART_RX_PIN, gpioModeInput, BLE_DEFAULT);
+
 }

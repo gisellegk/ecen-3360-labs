@@ -62,9 +62,11 @@ int main(void)
 
 
   /* Call to start the LETIMER operation */
-  letimer_start(LETIMER0, true);
+  //letimer_start(LETIMER0, true);
 
-  /* Infinite blink loop */
+  // Check to make sure the Boot Up Event was scheduled instead of starting LETIMER here.
+  EFM_ASSERT(get_scheduled_events() & BOOT_UP_EVT);
+
   while (1) {
 	  //EMU_EnterEM2(true);
 	  if(!get_scheduled_events()) enter_sleep();
@@ -81,6 +83,12 @@ int main(void)
 	  }
 	  if(get_scheduled_events()&SI7021_TEMP_READ_COMPLETE_EVT){
 		  scheduled_si7021_read_complete_evt();
+	  }
+	  if(get_scheduled_events()& BOOT_UP_EVT){
+		  scheduled_boot_up_evt();
+	  }
+	  if(get_scheduled_events()& BLE_TX_DONE_EVT){
+		  scheduled_tx_done_evt();
 	  }
 
   }

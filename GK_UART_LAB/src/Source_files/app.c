@@ -14,6 +14,7 @@
 #include "letimer.h"
 #include "scheduler.h"
 #include "SI7021.h"
+#include "ble.h"
 
 //***********************************************************************************
 // defined files
@@ -49,6 +50,8 @@ void app_peripheral_setup(void){
 	scheduler_open();
 	sleep_open();
 	si7021_i2c_open();
+	ble_open(BLE_TX_DONE_EVT, BLE_RX_DONE_EVT);
+	add_scheduled_event(BOOT_UP_EVT);
 }
 
 
@@ -166,3 +169,62 @@ void scheduled_si7021_read_complete_evt(void){
 	}
 }
 
+/***************************************************************************//**
+ * @brief
+ *	Handles the BOOT UP event
+ *
+ * @details
+ *	This function clears the scheduled event and then handles the
+ *	Boot Up event.
+ *
+ *
+ ******************************************************************************/
+void scheduled_boot_up_evt(void){
+	EFM_ASSERT(get_scheduled_events() & BOOT_UP_EVT);
+	remove_scheduled_event(BOOT_UP_EVT);
+
+	//do stuff
+	bool test = ble_test("Giselle");
+	letimer_start(LETIMER0, true);
+
+
+}
+
+/***************************************************************************//**
+ * @brief
+ *	Handles the TX DONE event
+ *
+ * @details
+ *	This function clears the scheduled event and then handles the
+ *	Boot Up event.
+ *
+ *
+ ******************************************************************************/
+void scheduled_tx_done_evt(void){
+	EFM_ASSERT(get_scheduled_events() & BLE_TX_DONE_EVT);
+	remove_scheduled_event(BLE_TX_DONE_EVT);
+
+	//do stuff
+	// TODO: complete this function
+
+
+}
+
+/***************************************************************************//**
+ * @brief
+ *	Handles the RX DONE event
+ *
+ * @details
+ *	This function clears the scheduled event and then handles the
+ *	RX Done event.
+ *
+ *
+ ******************************************************************************/
+void scheduled_rx_done_evt(void){
+	EFM_ASSERT(get_scheduled_events() & BLE_RX_DONE_EVT);
+	remove_scheduled_event(BLE_RX_DONE_EVT);
+
+	//do stuff
+	// TODO: complete this function
+
+}

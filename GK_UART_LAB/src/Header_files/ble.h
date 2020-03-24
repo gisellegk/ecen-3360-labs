@@ -1,38 +1,35 @@
+/*
+ * ble.h
+ *
+ *  Created on: May 22, 2019
+ *      Author: xxx
+ */
 //***********************************************************************************
 // Include files
 //***********************************************************************************
-#include "em_gpio.h"
+
+//** Standard Libraries
+#include <stdbool.h>
+#include <stdint.h>
+
+#include "leuart.h"
 
 //***********************************************************************************
 // defined files
 //***********************************************************************************
 
-// LED0 pin is
-#define	LED0_port				gpioPortF
-#define LED0_pin				04u
-#define LED0_default			false 	// off
-// LED1 pin is
-#define LED1_port				gpioPortF
-#define LED1_pin				05u
-#define LED1_default			false	// off
+#define HM10_LEUART0			LEUART0
+#define HM10_BAUDRATE			9600
+#define	HM10_DATABITS			leuartDatabits8
+#define HM10_ENABLE				leuartEnable
+#define HM10_PARITY				leuartNoParity
+#define HM10_REFFREQ			0	// use reference clock
+#define HM10_STOPBITS			leuartStopbits1
 
-// Si7021 Pins
-#define SI7021_SCL_PORT			gpioPortC
-#define SI7021_SCL_PIN			11u
-#define SI7021_SDA_PORT			gpioPortC
-#define SI7021_SDA_PIN			10u
-#define SI7021_SENSOR_EN_PORT	gpioPortB
-#define SI7021_SENSOR_EN_PIN	10u
-#define SI7021_ENABLE 			1
-#define SI7021_I2C_DEFAULT		1
-
-// BLE Pins
-#define BLE_UART_RX_PORT				gpioPortD
-#define BLE_UART_RX_PIN				11u
-#define BLE_UART_TX_PORT				gpioPortD
-#define BLE_UART_TX_PIN				10u
-
-#define BLE_DEFAULT 				false  // sets filter disabled for RX, TX - Don't Care
+#define LEUART0_TX_ROUTE		_LEUART_ROUTELOC0_TXLOC_LOC18
+#define LEUART0_RX_ROUTE		_LEUART_ROUTELOC0_RXLOC_LOC18
+#define RX_DEFAULT_ENABLE 			true
+#define TX_DEFAULT_ENABLE 			true
 
 //***********************************************************************************
 // global variables
@@ -42,5 +39,7 @@
 //***********************************************************************************
 // function prototypes
 //***********************************************************************************
-void gpio_open(void);
+void ble_open(uint32_t tx_event, uint32_t rx_event);
+void ble_write(char *string);
 
+bool ble_test(char *mod_name);

@@ -16,11 +16,13 @@
 #define		LETIMER0_ROUTE_OUT1	0
 #define		LETIMER0_OUT1_EN	false
 
-#define 	LETIMER0_COMP0_EVT	0x00000001
-#define 	LETIMER0_COMP1_EVT	0x00000002
-#define 	LETIMER0_UF_EVT		0x00000004
+#define 	LETIMER0_COMP0_EVT					0x00000001
+#define 	LETIMER0_COMP1_EVT					0x00000002
+#define 	LETIMER0_UF_EVT						0x00000004
 #define 	SI7021_TEMP_READ_COMPLETE_EVT		0x00000008
-
+#define		BOOT_UP_EVT							0x00000010
+#define		BLE_TX_DONE_EVT						0x00000020
+#define		BLE_RX_DONE_EVT						0x00000040
 
 //***********************************************************************************
 // global variables
@@ -36,3 +38,6 @@ void scheduled_letimer0_uf_evt(void);
 void scheduled_letimer0_comp0_evt(void);
 void scheduled_letimer0_comp1_evt(void);
 void scheduled_si7021_read_complete_evt(void);
+void scheduled_boot_up_evt(void);
+void scheduled_tx_done_evt(void);
+void scheduled_rx_done_evt(void);

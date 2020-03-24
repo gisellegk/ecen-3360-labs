@@ -170,6 +170,28 @@ void leuart_open(LEUART_TypeDef *leuart, LEUART_OPEN_STRUCT *leuart_settings){
 
 /***************************************************************************//**
  * @brief
+ *   Function to start Low Energy UART peripheral communication port write operation.
+ *
+ * @details
+ *   This routine initializes an leuart_payload which stores the state of the LEUART
+ *   transmission. All information required by the LEUART state machine interacts with
+ *   this LEUART payload struct.
+ *
+ *   Once the payload is initialized, this function enables the TXBL interrupt,
+ *   which initiates the transmit sequence.
+ *
+ *  @note
+ *    This function must only be called when the state of the transmit state machine
+ *    is in IDLE mode and when the LEUART peripheral is also in an IDLE state.
+ *
+ * @param[in] leuart
+ *   Pointer to the base peripheral address of the LEUART peripheral being used.
+ *
+ * @param[in] string
+ *   The string which must be transmitted over UART.
+ *
+ * @param[in] string_len
+ *   The number of characters in the string to be transmitted.
  *
  * ******************************************************************************/
 
@@ -181,17 +203,15 @@ void leuart_start(LEUART_TypeDef *leuart, char *string, uint32_t string_len){
 	sleep_block_mode(LEUART_TX_EM_BLOCK);
 
 	EFM_ASSERT(string_len > 0);
-
+	leuart_payload.leuart = leuart;
+	leuart_payload.string = string;
 	leuart_payload.string_length = string_len;
 	leuart_payload.char_index = 0;
 
+	leuart_payload.state = LEUART_TRANSMIT;
+
 	LEUART_IntEnable(leuart, LEUART_IEN_TXBL);
 
-	leuart_payload.state = LEUART_TRANSMIT;
-	// write char n
-	leuart_payload.leuart->TXDATA = leuart_payload.string[leuart_payload.char_index];
-	// n++
-	leuart_payload.char_index++;
 }
 
 /***************************************************************************//**
@@ -215,17 +235,14 @@ static void leuart_txbl(void){
 			EFM_ASSERT(false);
 			break;
 		case LEUART_TRANSMIT:
+			// transmit the next char
+			leuart_payload.leuart->TXDATA = leuart_payload.string[leuart_payload.char_index];
+			leuart_payload.char_index++;// n++
 			// if n >= string_length, string is done. state = END_OF_DATA
 			if(leuart_payload.char_index >= leuart_payload.string_length) {
-				leuart_payload.state = LEUART_END_OF_DATA;
 				LEUART_IntDisable(leuart_payload.leuart, LEUART_IEN_TXBL); // disable TXBL
-				LEUART_IntEnable(leuart_payload.leuart, LEUART_IEN_TXC); // enable TXC
-			} else {
-				// transmit the next char
-				// write char n
-				leuart_payload.leuart->TXDATA = leuart_payload.string[leuart_payload.char_index];
-				// n++
-				leuart_payload.char_index++;
+				LEUART_IntEnable(leuart_payload.leuart, 1); // enable TXC
+				leuart_payload.state = LEUART_END_OF_DATA;
 			}
 			break;
 		case LEUART_END_OF_DATA:
@@ -299,14 +316,6 @@ void LEUART0_IRQHandler(void){
 	}
 }
 
-
-/***************************************************************************//**
- * @brief
- ******************************************************************************/
-
-bool leuart_tx_busy(LEUART_TypeDef *leuart){
-
-}
 
 /***************************************************************************//**
  * @brief

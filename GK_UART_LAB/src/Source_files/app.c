@@ -15,6 +15,7 @@
 #include "scheduler.h"
 #include "SI7021.h"
 #include "ble.h"
+#include <stdio.h>
 
 //***********************************************************************************
 // defined files
@@ -24,7 +25,7 @@
 //***********************************************************************************
 // global variables
 //***********************************************************************************
-
+char buffer[50];
 
 //***********************************************************************************
 // function
@@ -167,6 +168,8 @@ void scheduled_si7021_read_complete_evt(void){
 		// turn off LED 1
 		GPIO_PinOutClear(LED1_port, LED1_pin);
 	}
+	sprintf(buffer, "Temp = %d.%d F\n", (int)temp, (int)(temp*10)%10);
+	ble_write(buffer);
 }
 
 /***************************************************************************//**
@@ -184,8 +187,13 @@ void scheduled_boot_up_evt(void){
 	remove_scheduled_event(BOOT_UP_EVT);
 
 	//do stuff
-	bool test = ble_test("Giselle");
-	letimer_start(LETIMER0, true);
+#ifdef BLE_TEST_ENABLED
+	bool test = ble_test("GiselleKoo");
+	EFM_ASSERT(test);
+	for(int i = 0; i < 20000000; i++); // only works with no optimization
+#endif
+	ble_write("hellooo\n\0");
+
 
 
 }
@@ -196,7 +204,7 @@ void scheduled_boot_up_evt(void){
  *
  * @details
  *	This function clears the scheduled event and then handles the
- *	Boot Up event.
+ *	TX Done event.
  *
  *
  ******************************************************************************/
@@ -204,9 +212,7 @@ void scheduled_tx_done_evt(void){
 	EFM_ASSERT(get_scheduled_events() & BLE_TX_DONE_EVT);
 	remove_scheduled_event(BLE_TX_DONE_EVT);
 
-	//do stuff
-	// TODO: complete this function
-
+	letimer_start(LETIMER0, true);
 
 }
 

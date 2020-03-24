@@ -89,6 +89,8 @@ void ble_open(uint32_t tx_event, uint32_t rx_event){
  *   This function packages a write request to send a string over LEUART for
  *   the bluetooth module.
  *
+ * @param[in] string
+ *   the string that shall be transmitted over BLE
  *
  ******************************************************************************/
 

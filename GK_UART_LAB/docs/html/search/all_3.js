@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['get_5fscheduled_5fevents_7',['get_scheduled_events',['../scheduler_8c.html#a78f831851a72a952fa57b5528ebd5536',1,'scheduler.c']]]
+  ['enter_5fsleep_10',['enter_sleep',['../sleep__routines_8c.html#a38dae68379e12eee7b465eac207d9e27',1,'sleep_routines.c']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GK I2C Lab: src/Source_files/app.c File Reference</title>
+<title>GK UART Lab: src/Source_files/app.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,9 +25,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">GK I2C Lab
+   <div id="projectname">GK UART Lab
    </div>
-   <div id="projectbrief">DDL Lab 4</div>
+   <div id="projectbrief">DDL Lab 5</div>
   </td>
  </tr>
  </tbody>
@@ -83,7 +83,8 @@ $(document).ready(function(){initNavTree('app_8c.html',''); initResizable(); });
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">app.c File Reference</div>  </div>
 </div><!--header-->
@@ -95,6 +96,8 @@ $(document).ready(function(){initNavTree('app_8c.html',''); initResizable(); });
 <code>#include &quot;letimer.h&quot;</code><br />
 <code>#include &quot;scheduler.h&quot;</code><br />
 <code>#include &quot;SI7021.h&quot;</code><br />
+<code>#include &quot;ble.h&quot;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -116,6 +119,21 @@ Functions</h2></td></tr>
 <tr class="memitem:af58299caf01259af839ae149f9bd57e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="app_8c.html#af58299caf01259af839ae149f9bd57e4">scheduled_si7021_read_complete_evt</a> (void)</td></tr>
 <tr class="memdesc:af58299caf01259af839ae149f9bd57e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the SI7021 Temperature Read Complete event.  <a href="app_8c.html#af58299caf01259af839ae149f9bd57e4">More...</a><br /></td></tr>
 <tr class="separator:af58299caf01259af839ae149f9bd57e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a435ad7e555045f807f2d6a41acbf034c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="app_8c.html#a435ad7e555045f807f2d6a41acbf034c">scheduled_boot_up_evt</a> (void)</td></tr>
+<tr class="memdesc:a435ad7e555045f807f2d6a41acbf034c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the BOOT UP event.  <a href="app_8c.html#a435ad7e555045f807f2d6a41acbf034c">More...</a><br /></td></tr>
+<tr class="separator:a435ad7e555045f807f2d6a41acbf034c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d08ebf22e8dc72d9e44d5d6b4328766"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="app_8c.html#a6d08ebf22e8dc72d9e44d5d6b4328766">scheduled_tx_done_evt</a> (void)</td></tr>
+<tr class="memdesc:a6d08ebf22e8dc72d9e44d5d6b4328766"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the TX DONE event.  <a href="app_8c.html#a6d08ebf22e8dc72d9e44d5d6b4328766">More...</a><br /></td></tr>
+<tr class="separator:a6d08ebf22e8dc72d9e44d5d6b4328766"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90472551467d8a13a79ff0da0142baca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="app_8c.html#a90472551467d8a13a79ff0da0142baca">scheduled_rx_done_evt</a> (void)</td></tr>
+<tr class="memdesc:a90472551467d8a13a79ff0da0142baca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles the RX DONE event.  <a href="app_8c.html#a90472551467d8a13a79ff0da0142baca">More...</a><br /></td></tr>
+<tr class="separator:a90472551467d8a13a79ff0da0142baca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ac02a549f76b725558e9dc63ca585e253"><td class="memItemLeft" align="right" valign="top"><a id="ac02a549f76b725558e9dc63ca585e253"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><b>buffer</b> [50]</td></tr>
+<tr class="separator:ac02a549f76b725558e9dc63ca585e253"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains app driver functions. </p>
@@ -183,6 +201,27 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a435ad7e555045f807f2d6a41acbf034c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a435ad7e555045f807f2d6a41acbf034c">&#9670;&nbsp;</a></span>scheduled_boot_up_evt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void scheduled_boot_up_evt </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handles the BOOT UP event. </p>
+<p>This function clears the scheduled event and then handles the Boot Up event. </p>
+
+</div>
+</div>
 <a id="af440dd908c925e28e105d9bcf8516130"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af440dd908c925e28e105d9bcf8516130">&#9670;&nbsp;</a></span>scheduled_letimer0_comp0_evt()</h2>
 
@@ -246,6 +285,27 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a90472551467d8a13a79ff0da0142baca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90472551467d8a13a79ff0da0142baca">&#9670;&nbsp;</a></span>scheduled_rx_done_evt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void scheduled_rx_done_evt </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handles the RX DONE event. </p>
+<p>This function clears the scheduled event and then handles the RX Done event. </p>
+
+</div>
+</div>
 <a id="af58299caf01259af839ae149f9bd57e4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af58299caf01259af839ae149f9bd57e4">&#9670;&nbsp;</a></span>scheduled_si7021_read_complete_evt()</h2>
 
@@ -264,6 +324,27 @@ Functions</h2></td></tr>
 
 <p>Handles the SI7021 Temperature Read Complete event. </p>
 <p>This function clears the scheduled event and then handles the Temperature Read Complete event. </p>
+
+</div>
+</div>
+<a id="a6d08ebf22e8dc72d9e44d5d6b4328766"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d08ebf22e8dc72d9e44d5d6b4328766">&#9670;&nbsp;</a></span>scheduled_tx_done_evt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void scheduled_tx_done_evt </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handles the TX DONE event. </p>
+<p>This function clears the scheduled event and then handles the TX Done event. </p>
 
 </div>
 </div>

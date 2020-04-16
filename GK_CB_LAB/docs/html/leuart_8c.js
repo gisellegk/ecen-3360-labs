@@ -11,6 +11,7 @@ var leuart_8c =
     [ "leuart_app_receive_byte", "leuart_8c.html#a21909c4dd083a7b24960651acb1b421c", null ],
     [ "leuart_app_transmit_byte", "leuart_8c.html#a9a12e8ba04667fd52e1fcfecdab277f5", null ],
     [ "leuart_cmd_write", "leuart_8c.html#a6a7bfe6813f0c39daf30a00a95e870f6", null ],
+    [ "leuart_idle", "leuart_8c.html#a23d8406535749286601bbaac014af3df", null ],
     [ "leuart_if_reset", "leuart_8c.html#a76d2bedc4c3f0b3823ed8bd8a2f4f38a", null ],
     [ "leuart_open", "leuart_8c.html#aa6692cf12b340a299c41a206068ee455", null ],
     [ "leuart_start", "leuart_8c.html#a389a3178203c523630f1ab042cf623c3", null ],

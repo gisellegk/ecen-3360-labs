@@ -20,8 +20,6 @@
 //***********************************************************************************
 // defined files
 //***********************************************************************************
-//#define BLE_TEST_ENABLED
-#define CIRC_BUFF_TEST_ENABLED
 
 //***********************************************************************************
 // global variables
@@ -114,7 +112,7 @@ void app_letimer_pwm_open(float period, float act_period){
 void scheduled_letimer0_uf_evt(void){
 	EFM_ASSERT(get_scheduled_events() & LETIMER0_UF_EVT);
 	remove_scheduled_event(LETIMER0_UF_EVT);
-	si7021_read(SI7021_TEMP_READ_COMPLETE_EVT);
+	si7021_read_rh(SI7021_READ_RH_DONE_EVT);
 }
 
 /***************************************************************************//**
@@ -158,9 +156,52 @@ void scheduled_letimer0_comp1_evt(void){
  *
  *
  ******************************************************************************/
-void scheduled_si7021_read_complete_evt(void){
-	EFM_ASSERT(get_scheduled_events() & SI7021_TEMP_READ_COMPLETE_EVT);
-	remove_scheduled_event(SI7021_TEMP_READ_COMPLETE_EVT);
+void scheduled_si7021_read_temp_done_evt(void){
+	EFM_ASSERT(get_scheduled_events() & SI7021_READ_TEMP_DONE_EVT);
+	remove_scheduled_event(SI7021_READ_TEMP_DONE_EVT);
+	float temp = si7021_last_temp_f();
+	if(temp >= 80.0) {
+		// turn on GPIO pin LED 1
+		GPIO_PinOutSet(LED1_port, LED1_pin);
+	} else {
+		// turn off LED 1
+		GPIO_PinOutClear(LED1_port, LED1_pin);
+	}
+	sprintf(buffer, "Temp = %d.%d F\n", (int)temp, (int)(temp*10)%10);
+	ble_write(buffer);
+}
+
+/***************************************************************************//**
+ * @brief
+ *	Handles the SI7021 Relative Humidity Read Complete event
+ *
+ * @details
+ *	This function clears the scheduled event and then handles the
+ *	Relative Humidity Read Complete event.
+ *
+ *
+ ******************************************************************************/
+void scheduled_si7021_read_rh_done_evt(void){
+	EFM_ASSERT(get_scheduled_events() & SI7021_READ_RH_DONE_EVT);
+	remove_scheduled_event(SI7021_READ_RH_DONE_EVT);
+	// TODO: finish this
+}
+
+/***************************************************************************//**
+ * @brief
+ *	Handles the SI7021 Read Temperature from RH Complete event
+ *
+ * @details
+ *	This function clears the scheduled event and then handles the
+ *	Read Temperature from RH Complete event.
+ *
+ *
+ ******************************************************************************/
+void scheduled_si7021_read_rh_temp_done_evt(void){
+	EFM_ASSERT(get_scheduled_events() & SI7021_READ_RH_TEMP_DONE_EVT);
+	remove_scheduled_event(SI7021_READ_RH_TEMP_DONE_EVT);
+
+	// TODO: update this
 	float temp = si7021_last_temp_f();
 	if(temp >= 80.0) {
 		// turn on GPIO pin LED 1
@@ -195,6 +236,9 @@ void scheduled_boot_up_evt(void){
 #endif
 #ifdef CIRC_BUFF_TEST_ENABLED
 	circular_buff_test();
+#endif
+#ifdef SI7021_TEST_ENABLED
+	si7021_test();
 #endif
 	ble_write("\nHello World\n");
 	ble_write("Circular Buffer Lab\n");

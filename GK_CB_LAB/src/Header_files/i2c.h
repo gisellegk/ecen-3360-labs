@@ -18,12 +18,12 @@
 // global variables
 //***********************************************************************************
 typedef enum {
-	IDLE,
-	REQUEST_DEVICE,
-	WRITE_COMMAND_CODE,
-	WAIT_FOR_CONVERSION,
-	READ_DATA,
-	CLOSE_FUNCTION
+	I2C_IDLE,
+	I2C_REQUEST_DEVICE,
+	I2C_WRITE_DATA,
+	I2C_REQUEST_DATA,
+	I2C_READ_DATA,
+	I2C_CLOSE_FUNCTION
 } State;
 
 typedef struct {

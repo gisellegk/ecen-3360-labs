@@ -81,14 +81,20 @@ int main(void)
 	  if(get_scheduled_events()&LETIMER0_COMP1_EVT){
 	  	  scheduled_letimer0_comp1_evt();
 	  }
-	  if(get_scheduled_events()&SI7021_TEMP_READ_COMPLETE_EVT){
-		  scheduled_si7021_read_complete_evt();
-	  }
 	  if(get_scheduled_events()& BOOT_UP_EVT){
 		  scheduled_boot_up_evt();
 	  }
 	  if(get_scheduled_events()& BLE_TX_DONE_EVT){
 		  scheduled_tx_done_evt();
+	  }
+	  if(get_scheduled_events()& SI7021_READ_TEMP_DONE_EVT){
+		  scheduled_si7021_read_temp_done_evt();
+	  }
+	  if(get_scheduled_events() & SI7021_READ_RH_DONE_EVT){
+		  scheduled_si7021_read_rh_done_evt();
+	  }
+	  if(get_scheduled_events() & SI7021_READ_RH_TEMP_DONE_EVT){
+		  scheduled_si7021_read_rh_temp_done_evt();
 	  }
 
   }

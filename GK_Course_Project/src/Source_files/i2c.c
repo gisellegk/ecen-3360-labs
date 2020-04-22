@@ -129,7 +129,7 @@ void i2c_open(I2C_TypeDef *i2c, I2C_OPEN_STRUCT *i2c_open, I2C_IO_STRUCT *i2c_io
 		// we only have i2c0 and i2c1
 	}
 	i2c_bus_reset(i2c, i2c_io);
-	i2c_payload.state = IDLE; // start in idle mode
+	i2c_payload.state = I2C_IDLE; // start in idle mode
 }
 
 /***************************************************************************//**
@@ -234,23 +234,33 @@ void I2C0_IRQHandler(void){
  *
  ******************************************************************************/
 
-void i2c_start(I2C_TypeDef *i2c, uint8_t device_address, bool read, uint8_t command_code, uint8_t* data_arr, uint8_t data_arr_length, uint32_t event){
+void i2c_start(I2C_TypeDef *i2c, I2C_START_STRUCT* start_struct){
 	EFM_ASSERT((i2c->STATE & _I2C_STATE_STATE_MASK) == I2C_STATE_STATE_IDLE); // this assert will trigger if your i2c peripheral hasn't completed its previous operation
-	EFM_ASSERT(i2c_payload.state == IDLE); // state machine should only be started in idle mode.
+	EFM_ASSERT(i2c_payload.state == I2C_IDLE); // state machine should only be started in idle mode.
 
 	sleep_block_mode(I2C_EM_BLOCK);
 	i2c_payload.i2c = i2c;
-	i2c_payload.device_address = device_address;
-	i2c_payload.read = read;
-	i2c_payload.command_code = command_code;
-	i2c_payload.data_arr = data_arr;
-	i2c_payload.data_arr_length = data_arr_length;
-	i2c_payload.num_data_saved = 0;
+	i2c_payload.device_address = start_struct->device_address;
+	i2c_payload.read = start_struct->read;
+	i2c_payload.write_length = start_struct->command_code_length + start_struct->write_length;
+	// construct write array
+	uint8_t write_arr[i2c_payload.write_length];
+	for(int i = 0; i < start_struct->command_code_length; i++){
+		write_arr[i] = start_struct->command_code[i];
+	}
+	for(int i = 0; i < start_struct->write_length; i++){
+		write_arr[i + start_struct->command_code_length] = start_struct->write_arr[i];
+	}
+	i2c_payload.write_arr = write_arr;
+	i2c_payload.read_arr = start_struct->read_arr;
+	i2c_payload.read_length = start_struct->read_length;
+	i2c_payload.num_bytes_written = 0;
+	i2c_payload.num_bytes_read = 0;
+	i2c_payload.event = start_struct->event;
 
-	i2c_payload.state = REQUEST_DEVICE;
-	i2c_payload.event = event;
+	i2c_payload.state = I2C_REQUEST_DEVICE;
 
-	// Start bit, Device address, read bit.
+	// Start bit, Device address, write bit.
 	i2c_payload.i2c->CMD = I2C_CMD_START;
 	i2c_payload.i2c->TXDATA = (i2c_payload.device_address << 1) | I2C_WRITE;
 
@@ -269,28 +279,28 @@ void i2c_start(I2C_TypeDef *i2c, uint8_t device_address, bool read, uint8_t comm
  ******************************************************************************/
 static void i2c_ack(){
 	switch(i2c_payload.state){
-		case IDLE:
+		case I2C_IDLE:
 			EFM_ASSERT(false);
 			break;
-		case REQUEST_DEVICE:
-			i2c_payload.state = WRITE_COMMAND_CODE;
+		case I2C_REQUEST_DEVICE:
+			i2c_payload.state = I2C_WRITE_DATA;
 			// send measurement command
-			i2c_payload.i2c->TXDATA = i2c_payload.command_code;
+			i2c_payload.i2c->TXDATA = i2c_payload.write_arr[0];
 			break;
-		case WRITE_COMMAND_CODE:
+		case I2C_WRITE_DATA:
 			if(i2c_payload.read){
-				i2c_payload.state = WAIT_FOR_CONVERSION;
+				i2c_payload.state = I2C_REQUEST_DATA;
 				i2c_payload.i2c->CMD = I2C_CMD_START;
 				i2c_payload.i2c->TXDATA = (i2c_payload.device_address << 1) | I2C_READ;
 			}
 			break;
-		case WAIT_FOR_CONVERSION:
-			i2c_payload.state = READ_DATA;
+		case I2C_REQUEST_DATA:
+			i2c_payload.state = I2C_READ_DATA;
 			break;
-		case READ_DATA:
+		case I2C_READ_DATA:
 			EFM_ASSERT(false);
 			break;
-		case CLOSE_FUNCTION:
+		case I2C_CLOSE_FUNCTION:
 			EFM_ASSERT(false);
 			break;
 		default:
@@ -312,16 +322,16 @@ static void i2c_ack(){
  ******************************************************************************/
 static void i2c_nack(){
 	switch(i2c_payload.state){
-		case IDLE:
+		case I2C_IDLE:
 			EFM_ASSERT(false);
 			break;
-		case REQUEST_DEVICE:
+		case I2C_REQUEST_DEVICE:
 			EFM_ASSERT(false);
 			break;
-		case WRITE_COMMAND_CODE:
+		case I2C_WRITE_DATA:
 			EFM_ASSERT(false);
 			break;
-		case WAIT_FOR_CONVERSION:
+		case I2C_REQUEST_DATA:
 			// request data again
 			if(i2c_payload.read){
 				i2c_payload.i2c->CMD = I2C_CMD_START;
@@ -329,10 +339,10 @@ static void i2c_nack(){
 				i2c_payload.i2c->TXDATA = a;
 			}
 			break;
-		case READ_DATA:
+		case I2C_READ_DATA:
 			EFM_ASSERT(false);
 			break;
-		case CLOSE_FUNCTION:
+		case I2C_CLOSE_FUNCTION:
 			EFM_ASSERT(false);
 			break;
 		default:
@@ -353,24 +363,24 @@ static void i2c_nack(){
  ******************************************************************************/
 static void i2c_rxdatav(){
 	switch(i2c_payload.state){
-		case IDLE:
+		case I2C_IDLE:
 			EFM_ASSERT(false);
 			break;
-		case REQUEST_DEVICE:
+		case I2C_REQUEST_DEVICE:
 			EFM_ASSERT(false);
 			break;
-		case WRITE_COMMAND_CODE:
+		case I2C_WRITE_DATA:
 			EFM_ASSERT(false);
 			break;
-		case WAIT_FOR_CONVERSION:
+		case I2C_REQUEST_DATA:
 			EFM_ASSERT(false);
 			break;
-		case READ_DATA:
+		case I2C_READ_DATA:
 			// read byte
-			i2c_payload.data_arr[i2c_payload.num_data_saved] = i2c_payload.i2c->RXDATA; //data;
-			i2c_payload.num_data_saved++;
-			if(i2c_payload.num_data_saved >= i2c_payload.data_arr_length){
-				i2c_payload.state = CLOSE_FUNCTION;
+			i2c_payload.read_arr[i2c_payload.num_bytes_read] = i2c_payload.i2c->RXDATA; //data;
+			i2c_payload.num_bytes_read++;
+			if(i2c_payload.num_bytes_read >= i2c_payload.read_length){
+				i2c_payload.state = I2C_CLOSE_FUNCTION;
 				i2c_payload.i2c->CMD = I2C_CMD_NACK;
 				i2c_payload.i2c->CMD = I2C_CMD_STOP;
 			} else {
@@ -378,7 +388,7 @@ static void i2c_rxdatav(){
 				i2c_payload.i2c->CMD = I2C_CMD_ACK;
 			}
 			break;
-		case CLOSE_FUNCTION:
+		case I2C_CLOSE_FUNCTION:
 			EFM_ASSERT(false);
 			break;
 		default:
@@ -400,23 +410,23 @@ static void i2c_rxdatav(){
  ******************************************************************************/
 static void i2c_mstop(){
 	switch(i2c_payload.state){
-		case IDLE:
+		case I2C_IDLE:
 			EFM_ASSERT(false);
 			break;
-		case REQUEST_DEVICE:
+		case I2C_REQUEST_DEVICE:
 			EFM_ASSERT(false);
 			break;
-		case WRITE_COMMAND_CODE:
+		case I2C_WRITE_DATA:
 			EFM_ASSERT(false);
 			break;
-		case WAIT_FOR_CONVERSION:
+		case I2C_REQUEST_DATA:
 			EFM_ASSERT(false);
 			break;
-		case READ_DATA:
+		case I2C_READ_DATA:
 			EFM_ASSERT(false);
 			break;
-		case CLOSE_FUNCTION:
-			i2c_payload.state = IDLE;
+		case I2C_CLOSE_FUNCTION:
+			i2c_payload.state = I2C_IDLE;
 			sleep_unblock_mode(I2C_EM_BLOCK); // allow sleep
 			add_scheduled_event(i2c_payload.event); // schedule event
 			break;
@@ -424,5 +434,19 @@ static void i2c_mstop(){
 			EFM_ASSERT(false);
 			break;
 	}
+}
+
+/***************************************************************************//**
+ * @brief
+ *   I2C Idle indicates whether the I2C state machine is in the IDLE state
+ *
+ * @return
+ * 	 Returns TRUE if the state machine is IDLE and FALSE if the state machine is
+ * 	 busy (ie. any state other than IDLE)
+ *
+ ******************************************************************************/
+
+bool i2c_idle(void){
+	return (i2c_payload.state == I2C_IDLE);
 }
 

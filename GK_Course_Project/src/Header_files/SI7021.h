@@ -64,6 +64,9 @@ void si7021_write(uint8_t* command_code, uint8_t command_code_length, uint8_t* w
 void si7021_read_rh(uint32_t event);
 void si7021_read_temp(uint32_t event);
 void si7021_read_rh_temp(uint32_t event);
+void si7021_write_ur1(uint8_t byte, uint32_t event);
+void si7021_read_ur1(uint32_t event);
+void si7021_read_SNB(uint32_t event);
 
 // get last data
 float si7021_last_temp_f(void);

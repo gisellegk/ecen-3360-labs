@@ -232,6 +232,48 @@ void si7021_read_rh_temp(uint32_t event){
 
 /***************************************************************************//**
  * @brief
+ *	A function to initiate a Read User Register 1
+ *
+ * @details
+ *	This function initiates the read command to get the current value of the
+ *	User Register from the Si7021 device
+ *
+ ******************************************************************************/
+void si7021_read_ur1(uint32_t event){
+	uint8_t usr = SI7021_READ_UR1;
+	si7021_read(&usr, I2C_ONE_BYTE_CC, SI7021_NUM_BYTES_USER_REG, event);
+}
+
+/***************************************************************************//**
+ * @brief
+ *	A function to initiate a Write User Register 1
+ *
+ * @details
+ *	This function initiates the write command to overwrite the current value of the
+ *	User Register from the Si7021 device with the provided value.
+ *
+ ******************************************************************************/
+void si7021_write_ur1(uint8_t byte, uint32_t event){
+	uint8_t usr = SI7021_WRITE_UR1;
+	si7021_write(&usr, I2C_ONE_BYTE_CC, &byte, SI7021_NUM_BYTES_USER_REG, event);
+}
+
+/***************************************************************************//**
+ * @brief
+ *	A function to initiate a Read Serial Number sequence part B
+ *
+ * @details
+ *	This function initiates the read command to get the Electronic Serial
+ *	Number part B from the Si7021 device
+ *
+ ******************************************************************************/
+void si7021_read_SNB(uint32_t event){
+	uint8_t snb[I2C_TWO_BYTE_CC] = { SI7021_SNB_MSB, SI7021_SNB_LSB };
+	si7021_read(&snb[0], I2C_TWO_BYTE_CC, SI7021_NUM_BYTES_SNB, event);
+}
+
+/***************************************************************************//**
+ * @brief
  *	A function which returns the most recently read temperature measurement.
  *
  * @details
@@ -275,6 +317,8 @@ float si7021_last_rh(){
 	return rh;
 }
 
+
+
 /***************************************************************************//**
  * @brief
  *   SI7021 Read/Write test. This is a Test Driven Development routine to verify
@@ -305,37 +349,45 @@ float si7021_last_rh(){
 
 void si7021_test(void){
 	timer_delay(SI7021_TEST_DELAY); // wait for SI7021 to initialize
-
 	// Test 1: Read from User Register 1.
 	// This is a single byte read to test simplest read functionality
-		// prepare variables
-	uint8_t command_code[2]; // array for use later maybe
-	command_code[0] = SI7021_READ_UR1;
-	uint8_t num_data_bytes = 1;
-		// run command
-	si7021_read(command_code, I2C_ONE_BYTE_CC, num_data_bytes, NO_EVENT);
+
+	// This version of the code does not work:
+	//uint8_t command_code = SI7021_READ_UR1;
+	//si7021_read(&command_code, I2C_ONE_BYTE_CC, SI7021_NUM_BYTES_USER_REG, NO_EVENT);
+
+	// This version works:
+//	void si7021_read_ur1(uint32_t event){
+//		uint8_t usr = SI7021_READ_UR1;
+//		si7021_read(&usr, I2C_ONE_BYTE_CC, SI7021_NUM_BYTES_USER_REG, event);
+//	}
+
+	si7021_read_ur1(NO_EVENT);
+
 	while(!i2c_idle());// stall until i2c is done
-		// compare with expected value (default)
-	uint8_t expected_value = 0b00111010;
+	uint8_t expected_value = 0b00111010;	// compare with expected value (default)
 	EFM_ASSERT(data[0] == expected_value); // will fail if not default value
 
 	// Test 2: Write to User Register 1 to change from 12b to 13b temp measurement
 	// this is a single byte write to test simplest write functionality
 		// prepare variables
-	command_code[0] = SI7021_WRITE_UR1;
+	//command_code = SI7021_WRITE_UR1;
 	// num_data_bytes is still 1
+	data[0] = 0;
 	uint8_t write_data = 0b10111010;
 		// run command
-	si7021_write(command_code, I2C_ONE_BYTE_CC, &write_data, num_data_bytes, NO_EVENT);
+	si7021_write_ur1(write_data, NO_EVENT);
+	//si7021_write(&command_code, I2C_ONE_BYTE_CC, &write_data, num_data_bytes, NO_EVENT);
 	while(!i2c_idle());// stall until i2c is done
 		// 80 ms delay to assure write completes before attempting to read
 	timer_delay(SI7021_TEST_DELAY);
 	// Read User Register 1 to confirm successful write.
 		// prepare variables for read
-	command_code[0] = SI7021_READ_UR1;
+//	command_code[0] = SI7021_READ_UR1;
 	// num_data_bytes is still 1
 		// run command
-	si7021_read(command_code, I2C_ONE_BYTE_CC, num_data_bytes, NO_EVENT);
+	si7021_read_ur1(NO_EVENT);
+//	si7021_read(command_code, I2C_ONE_BYTE_CC, num_data_bytes, NO_EVENT);
 	while(!i2c_idle());// stall until i2c is done
 		// compare
 	EFM_ASSERT(data[0] == write_data); // will fail if not modified value
@@ -343,10 +395,11 @@ void si7021_test(void){
 	// Test 3: Read temp and validate within room temperature range
 	// This will test a multi-byte read
 		// prepare variables
-	command_code[0] =  SI7021_TEMP_NO_HOLD;
-	num_data_bytes = SI7021_NUM_BYTES_TEMP_NOCHECKSUM;
+//	command_code[0] =  SI7021_TEMP_NO_HOLD;
+//	num_data_bytes = SI7021_NUM_BYTES_TEMP_NOCHECKSUM;
 		// run command
-	si7021_read(command_code, I2C_ONE_BYTE_CC, num_data_bytes, NO_EVENT);
+	si7021_read_temp(NO_EVENT);
+	//si7021_read(command_code, I2C_ONE_BYTE_CC, num_data_bytes, NO_EVENT);
 	while(!i2c_idle());// stall until i2c is done
 		// get data and compare
 	float temp = si7021_last_temp_f();
@@ -360,11 +413,13 @@ void si7021_test(void){
 	// honestly i don't think this really tests a multibyte read since we can only
 	// really validate the first returned byte and not the subsequent ones.
 		// prepare variables
-	command_code[0] = SI7021_SNB_MSB;
-	command_code[1] = SI7021_SNB_LSB;
-	num_data_bytes = SI7021_NUM_BYTES_SNB;
+//	command_code[0] = SI7021_SNB_MSB;
+//	command_code[1] = SI7021_SNB_LSB;
+//	num_data_bytes = SI7021_NUM_BYTES_SNB;
+	//uint8_t ESN_CC[2] = {SI7021_SNB_MSB, SI7021_SNB_LSB};
 		// run command
-	si7021_read(command_code, I2C_TWO_BYTE_CC, num_data_bytes, NO_EVENT);
+	si7021_read_SNB(NO_EVENT);
+	//si7021_read(&ESN_CC[0], I2C_TWO_BYTE_CC, SI7021_NUM_BYTES_SNB, NO_EVENT);
 	while(!i2c_idle());
 		//compare to expected value
 	EFM_ASSERT(data[0] == 0x15);

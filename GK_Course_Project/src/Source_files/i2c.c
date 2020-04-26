@@ -285,13 +285,22 @@ static void i2c_ack(){
 		case I2C_REQUEST_DEVICE:
 			i2c_payload.state = I2C_WRITE_DATA;
 			// send measurement command
-			i2c_payload.i2c->TXDATA = i2c_payload.write_arr[0];
+			i2c_payload.i2c->TXDATA = i2c_payload.write_arr[0]; // write the first byte
 			break;
 		case I2C_WRITE_DATA:
-			if(i2c_payload.read){
-				i2c_payload.state = I2C_REQUEST_DATA;
-				i2c_payload.i2c->CMD = I2C_CMD_START;
-				i2c_payload.i2c->TXDATA = (i2c_payload.device_address << 1) | I2C_READ;
+			i2c_payload.num_bytes_written++;
+			if(i2c_payload.num_bytes_written >= i2c_payload.write_length){
+				if(i2c_payload.read){
+					i2c_payload.state = I2C_REQUEST_DATA;
+					i2c_payload.i2c->CMD = I2C_CMD_START;
+					i2c_payload.i2c->TXDATA = (i2c_payload.device_address << 1) | I2C_READ;
+				} else {
+					// write mode - jump to close function.
+					i2c_payload.state = I2C_CLOSE_FUNCTION;
+					i2c_payload.i2c->CMD = I2C_CMD_STOP; // no NACK needed to end write
+				}
+			} else { // not done writing - put next byte
+				i2c_payload.i2c->TXDATA = i2c_payload.write_arr[i2c_payload.num_bytes_written];
 			}
 			break;
 		case I2C_REQUEST_DATA:
@@ -335,8 +344,10 @@ static void i2c_nack(){
 			// request data again
 			if(i2c_payload.read){
 				i2c_payload.i2c->CMD = I2C_CMD_START;
-				uint8_t a = (i2c_payload.device_address << 1) | I2C_READ;
-				i2c_payload.i2c->TXDATA = a;
+				uint8_t tx_byte = (i2c_payload.device_address << 1) | I2C_READ;
+				i2c_payload.i2c->TXDATA = tx_byte;
+			} else{
+				EFM_ASSERT(false);
 			}
 			break;
 		case I2C_READ_DATA:
@@ -375,9 +386,10 @@ static void i2c_rxdatav(){
 		case I2C_REQUEST_DATA:
 			EFM_ASSERT(false);
 			break;
-		case I2C_READ_DATA:
+		case I2C_READ_DATA:;
 			// read byte
-			i2c_payload.read_arr[i2c_payload.num_bytes_read] = i2c_payload.i2c->RXDATA; //data;
+			uint32_t rx_byte = i2c_payload.i2c->RXDATA;//(i2c_payload.device_address << 1) | I2C_READ;
+			i2c_payload.read_arr[i2c_payload.num_bytes_read] = rx_byte; //i2c_payload.i2c->RXDATA; //data;
 			i2c_payload.num_bytes_read++;
 			if(i2c_payload.num_bytes_read >= i2c_payload.read_length){
 				i2c_payload.state = I2C_CLOSE_FUNCTION;

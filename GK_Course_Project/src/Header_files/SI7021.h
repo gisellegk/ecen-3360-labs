@@ -52,21 +52,27 @@
 #define		SI7021_NUM_BYTES_SNA				8
 #define		SI7021_NUM_BYTES_SNB				6
 
+#define 	SI7021_ARR_MAX_LEN					10
+
+#define		SI7021_USRREG1_DEFAULT_VAL			0x3A
+#define		SI7021_USRREG1_13_BIT_RES_SET		0xBA
+
+#define NO_EVENT 					(uint32_t)0
+#define SI7021_POWERUP_DELAY_MS 	80
+#define SI7021_USRREG1_DELAY_MS 	80
+
 //***********************************************************************************
 // global variables
 //***********************************************************************************
 
 void si7021_i2c_open();
-void si7021_read(uint8_t* command_code, uint8_t command_code_length, uint8_t read_length, uint32_t event);
-void si7021_write(uint8_t* command_code, uint8_t command_code_length, uint8_t* write_arr, uint8_t write_length, uint32_t event);
+void si7021_read(uint8_t command_code_length, uint8_t read_length, uint32_t event);
+void si7021_write(uint8_t command_code_length, uint8_t write_length, uint32_t event);
 
 // r/w presets
 void si7021_read_rh(uint32_t event);
 void si7021_read_temp(uint32_t event);
 void si7021_read_rh_temp(uint32_t event);
-void si7021_write_ur1(uint8_t byte, uint32_t event);
-void si7021_read_ur1(uint32_t event);
-void si7021_read_SNB(uint32_t event);
 
 // get last data
 float si7021_last_temp_f(void);

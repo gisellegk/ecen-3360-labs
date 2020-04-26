@@ -225,7 +225,7 @@ void I2C0_IRQHandler(void){
  *
  * 	@param[in] data_arr
  * 	 A pointer to an array to store data from read commands.
- *
+ *I2C_START_STRUCT
  * 	@param[in] data_arr_length
  * 	 the length of the array to store data (number of bytes).
  *
@@ -234,35 +234,27 @@ void I2C0_IRQHandler(void){
  *
  ******************************************************************************/
 
-void i2c_start(I2C_TypeDef *i2c, I2C_START_STRUCT* start_struct){
-	EFM_ASSERT((i2c->STATE & _I2C_STATE_STATE_MASK) == I2C_STATE_STATE_IDLE); // this assert will trigger if your i2c peripheral hasn't completed its previous operation
-	EFM_ASSERT(i2c_payload.state == I2C_IDLE); // state machine should only be started in idle mode.
+void i2c_start(I2C_START_STRUCT* start_struct)
+{
+
+	__disable_irq();
+
+	EFM_ASSERT(i2c_idle(start_struct->i2c));
+	EFM_ASSERT(start_struct->command_code_length > 0);
+	if(start_struct->read == I2C_READ)	EFM_ASSERT(start_struct->read_length > 0);
+	else	EFM_ASSERT(start_struct->write_length > 0);
 
 	sleep_block_mode(I2C_EM_BLOCK);
-	i2c_payload.i2c = i2c;
-	i2c_payload.device_address = start_struct->device_address;
-	i2c_payload.read = start_struct->read;
-	i2c_payload.write_length = start_struct->command_code_length + start_struct->write_length;
-	// construct write array
-	uint8_t write_arr[i2c_payload.write_length];
-	for(int i = 0; i < start_struct->command_code_length; i++){
-		write_arr[i] = start_struct->command_code[i];
-	}
-	for(int i = 0; i < start_struct->write_length; i++){
-		write_arr[i + start_struct->command_code_length] = start_struct->write_arr[i];
-	}
-	i2c_payload.write_arr = write_arr;
-	i2c_payload.read_arr = start_struct->read_arr;
-	i2c_payload.read_length = start_struct->read_length;
-	i2c_payload.num_bytes_written = 0;
-	i2c_payload.num_bytes_read = 0;
-	i2c_payload.event = start_struct->event;
-
 	i2c_payload.state = I2C_REQUEST_DEVICE;
+	i2c_payload.index = 0;
+
+	memcpy(&i2c_payload.start, start_struct, sizeof(I2C_START_STRUCT));
 
 	// Start bit, Device address, write bit.
-	i2c_payload.i2c->CMD = I2C_CMD_START;
-	i2c_payload.i2c->TXDATA = (i2c_payload.device_address << 1) | I2C_WRITE;
+	i2c_payload.start.i2c->CMD = I2C_CMD_START;
+	i2c_payload.start.i2c->TXDATA = I2C_ADDR_W(i2c_payload.start.device_address);
+
+	__enable_irq();
 
 }
 
@@ -285,22 +277,40 @@ static void i2c_ack(){
 		case I2C_REQUEST_DEVICE:
 			i2c_payload.state = I2C_WRITE_DATA;
 			// send measurement command
-			i2c_payload.i2c->TXDATA = i2c_payload.write_arr[0]; // write the first byte
+			i2c_payload.start.i2c->TXDATA = *(i2c_payload.start.command_code + i2c_payload.index);
+			i2c_payload.start.command_code_length -= 1;
+			i2c_payload.index += 1;
+			if(i2c_payload.start.command_code_length == 0)		i2c_payload.index = 0;
 			break;
 		case I2C_WRITE_DATA:
-			i2c_payload.num_bytes_written++;
-			if(i2c_payload.num_bytes_written >= i2c_payload.write_length){
-				if(i2c_payload.read){
-					i2c_payload.state = I2C_REQUEST_DATA;
-					i2c_payload.i2c->CMD = I2C_CMD_START;
-					i2c_payload.i2c->TXDATA = (i2c_payload.device_address << 1) | I2C_READ;
-				} else {
-					// write mode - jump to close function.
-					i2c_payload.state = I2C_CLOSE_FUNCTION;
-					i2c_payload.i2c->CMD = I2C_CMD_STOP; // no NACK needed to end write
+			if(i2c_payload.start.read == true)
+			{
+				i2c_payload.state = I2C_REQUEST_DATA;
+				i2c_payload.index = 0;
+				i2c_payload.start.i2c->CMD = I2C_CMD_START;
+				i2c_payload.start.i2c->TXDATA = I2C_ADDR_R(i2c_payload.start.device_address);
+			}
+			else
+			{
+				if(i2c_payload.start.command_code_length > 0)
+				{
+					i2c_payload.start.i2c->TXDATA = *(i2c_payload.start.command_code + i2c_payload.index);
+					i2c_payload.start.command_code_length -= 1;
+					i2c_payload.index += 1;
+					if(i2c_payload.start.command_code_length == 0)		i2c_payload.index = 0;
 				}
-			} else { // not done writing - put next byte
-				i2c_payload.i2c->TXDATA = i2c_payload.write_arr[i2c_payload.num_bytes_written];
+				else if(i2c_payload.start.write_length > 0)
+				{
+					i2c_payload.start.i2c->TXDATA = *(i2c_payload.start.write_arr + i2c_payload.index);
+					i2c_payload.start.write_length -= 1;
+					i2c_payload.index += 1;
+				}
+				else if(i2c_payload.start.write_length == 0)
+				{
+					i2c_payload.start.i2c->CMD = I2C_CMD_STOP;
+					i2c_payload.state = I2C_CLOSE_FUNCTION;
+				}
+				else	EFM_ASSERT(false);
 			}
 			break;
 		case I2C_REQUEST_DATA:
@@ -342,13 +352,12 @@ static void i2c_nack(){
 			break;
 		case I2C_REQUEST_DATA:
 			// request data again
-			if(i2c_payload.read){
-				i2c_payload.i2c->CMD = I2C_CMD_START;
-				uint8_t tx_byte = (i2c_payload.device_address << 1) | I2C_READ;
-				i2c_payload.i2c->TXDATA = tx_byte;
-			} else{
-				EFM_ASSERT(false);
+			if(i2c_payload.start.read == true)
+			{
+				i2c_payload.start.i2c->CMD = I2C_CMD_START;
+				i2c_payload.start.i2c->TXDATA = I2C_ADDR_R(i2c_payload.start.device_address);
 			}
+			else	EFM_ASSERT(false);
 			break;
 		case I2C_READ_DATA:
 			EFM_ASSERT(false);
@@ -386,18 +395,21 @@ static void i2c_rxdatav(){
 		case I2C_REQUEST_DATA:
 			EFM_ASSERT(false);
 			break;
-		case I2C_READ_DATA:;
+		case I2C_READ_DATA:
 			// read byte
-			uint32_t rx_byte = i2c_payload.i2c->RXDATA;//(i2c_payload.device_address << 1) | I2C_READ;
-			i2c_payload.read_arr[i2c_payload.num_bytes_read] = rx_byte; //i2c_payload.i2c->RXDATA; //data;
-			i2c_payload.num_bytes_read++;
-			if(i2c_payload.num_bytes_read >= i2c_payload.read_length){
+			if(i2c_payload.start.read_length > 0)
+			{
+				*(i2c_payload.start.read_arr + i2c_payload.index) = i2c_payload.start.i2c->RXDATA;
+				i2c_payload.start.i2c->CMD = I2C_CMD_ACK;
+				i2c_payload.start.read_length -= 1;
+				i2c_payload.index += 1;
+			}
+			else
+			{
+				*(i2c_payload.start.read_arr + i2c_payload.index) = i2c_payload.start.i2c->RXDATA;
+				i2c_payload.start.i2c->CMD = I2C_CMD_NACK;
+				i2c_payload.start.i2c->CMD = I2C_CMD_STOP;
 				i2c_payload.state = I2C_CLOSE_FUNCTION;
-				i2c_payload.i2c->CMD = I2C_CMD_NACK;
-				i2c_payload.i2c->CMD = I2C_CMD_STOP;
-			} else {
-				// send ACK
-				i2c_payload.i2c->CMD = I2C_CMD_ACK;
 			}
 			break;
 		case I2C_CLOSE_FUNCTION:
@@ -440,7 +452,8 @@ static void i2c_mstop(){
 		case I2C_CLOSE_FUNCTION:
 			i2c_payload.state = I2C_IDLE;
 			sleep_unblock_mode(I2C_EM_BLOCK); // allow sleep
-			add_scheduled_event(i2c_payload.event); // schedule event
+			add_scheduled_event(i2c_payload.start.event); // schedule event
+			i2c_payload.index = 0;
 			break;
 		default:
 			EFM_ASSERT(false);
@@ -458,7 +471,8 @@ static void i2c_mstop(){
  *
  ******************************************************************************/
 
-bool i2c_idle(void){
-	return (i2c_payload.state == I2C_IDLE);
+bool i2c_idle(I2C_TypeDef *i2c){
+	if((i2c->STATE & _I2C_STATE_STATE_MASK) == I2C_STATE_STATE_IDLE)	return true;
+	return false;
 }
 

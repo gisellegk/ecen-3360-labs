@@ -47,20 +47,14 @@
 #define		SI7021_NUM_BYTES_RH_CHECKSUM		3
 #define		SI7021_NUM_BYTES_RH_NOCHECKSUM 		2
 #define 	SI7021_NUM_BYTES_TEMP_FROM_RH		2
-#define		SI7021_MAX_READ_BYTES				8
 #define 	SI7021_NUM_BYTES_USER_REG			1
 #define		SI7021_NUM_BYTES_SNA				8
 #define		SI7021_NUM_BYTES_SNB				6
 
-#define 	SI7021_ARR_MAX_LEN					10
+#define		SI7021_MAX_READ_BYTES				8
+#define		SI7021_MAX_WRITE_BYTES				8
 
-#define		SI7021_USRREG1_DEFAULT_VAL			0x3A
-#define		SI7021_USRREG1_13_BIT_RES_SET		0xBA
-
-#define NO_EVENT 					(uint32_t)0
-#define SI7021_POWERUP_DELAY_MS 	80
-#define SI7021_USRREG1_DELAY_MS 	80
-
+#define 	SI7021_MAX_CC_LENGTH				2
 //***********************************************************************************
 // global variables
 //***********************************************************************************
@@ -73,6 +67,9 @@ void si7021_write(uint8_t command_code_length, uint8_t write_length, uint32_t ev
 void si7021_read_rh(uint32_t event);
 void si7021_read_temp(uint32_t event);
 void si7021_read_rh_temp(uint32_t event);
+void si7021_write_ur1(uint8_t byte, uint32_t event);
+void si7021_read_ur1(uint32_t event);
+void si7021_read_SNB(uint32_t event);
 
 // get last data
 float si7021_last_temp_f(void);

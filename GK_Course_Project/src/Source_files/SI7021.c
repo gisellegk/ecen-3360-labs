@@ -29,28 +29,36 @@
 #define SI7021_TEST_DELAY 80 // ms
 
 //***********************************************************************************
-// global variables
-//***********************************************************************************
-
-
-//***********************************************************************************
 // private variables
 //***********************************************************************************
 static uint8_t command_code[SI7021_MAX_CC_LENGTH];
 static uint8_t write_arr[SI7021_MAX_WRITE_BYTES];
 static uint8_t read_arr[SI7021_MAX_READ_BYTES];
 
+
+
+
+//***********************************************************************************
+// functions
+//***********************************************************************************
+/***************************************************************************//**
+ * @brief
+ * 	A private function that clears the arrays used as parameters for the i2c
+ * 	peripheral.
+ *
+ *
+ * @details
+ * 	This function resets the write_arr, read_arr, and command_code arrays
+ * 	to be filled with zeros.
+ *
+ *
+ ******************************************************************************/
 static void clear_i2c_arrays(void)
 {
 	memset(&write_arr[0], 0, SI7021_MAX_WRITE_BYTES);
 	memset(&read_arr[0], 0, SI7021_MAX_READ_BYTES);
 	memset(&command_code[0], 0, SI7021_MAX_CC_LENGTH);
 }
-
-
-//***********************************************************************************
-// functions
-//***********************************************************************************
 
 /***************************************************************************//**
  * @brief
@@ -67,7 +75,7 @@ static void clear_i2c_arrays(void)
  *
  *
  ******************************************************************************/
-void si7021_i2c_open()
+void si7021_i2c_open(void)
 {
 	I2C_IO_STRUCT i2c_io_struct;
 
@@ -103,12 +111,12 @@ void si7021_i2c_open()
  *
  * @details
  *  This starts the I2C state machine. It will save the data in the static local
- *  variable in Si7021.c which can be accessed with the accessor function
+ *  variable in Si7021.c
  *
- *
- * @param[in] command_code
- * 	 The command code of the read operation. This must be a pointer, and should
- * 	 point to an array if there is more than 1 byte in the command code.
+ * @note
+ * 	It is required to put the command code in the private command_code array.
+ * 	Results will be stored in the private read_arr array which can be accessed
+ * 	with either si7021_convert_temp_f() or si7021_convert_rh().
  *
  * @param[in] command_code_length
  *   The number of bytes in the command code array
@@ -122,7 +130,7 @@ void si7021_i2c_open()
  ******************************************************************************/
 void si7021_read(uint8_t command_code_length, uint8_t read_length, uint32_t event){
 	I2C_START_STRUCT start_struct;
-	// put stuff in start_struct here
+	// put stuff in start_struct
 	start_struct.device_address = SI7021_DEV_ADDR;
 	start_struct.read = I2C_READ;
 	start_struct.command_code = command_code;
@@ -133,7 +141,6 @@ void si7021_read(uint8_t command_code_length, uint8_t read_length, uint32_t even
 	start_struct.read_length = read_length;
 	start_struct.event = event;
 	i2c_start(SI7021_I2C, &start_struct);
-	//i2c_start(SI7021_I2C, SI7021_DEV_ADDR, I2C_READ, SI7021_TEMP_NO_HOLD, data, SI7021_NUM_BYTES_TEMP_CHECKSUM, event);
 
 }
 
@@ -303,7 +310,7 @@ void si7021_read_SNB(uint32_t event){
  * 	the last received temperature, as a float, in degrees Fahrenheit.
  *
  ******************************************************************************/
-float si7021_last_temp_f(){
+float si7021_convert_temp_f(){
 	uint16_t temp_code = (read_arr[0] << 8) | read_arr[1];
 	float temp_c = ((float)175.72*(float)temp_code / (float)65536) - (float)46.85;
 	return (temp_c * (float)1.8 + (float)32);
@@ -324,7 +331,7 @@ float si7021_last_temp_f(){
  * 	the last received relative humidity value as a percentage.
  *
  ******************************************************************************/
-float si7021_last_rh(){
+float si7021_convert_rh(){
 	uint16_t rh_code = (read_arr[0] << 8) | read_arr[1];
 	float rh = ((float)125.0*(float)rh_code / (float)65536) - (float)6.0;
 	return rh;
@@ -372,8 +379,8 @@ void si7021_test(void){
 
 	while(!i2c_idle());// stall until i2c is done
 	uint8_t expected_value = 0b00111010;	// compare with expected value (default)
-	//EFM_ASSERT(read_arr[0] == expected_value) // will fail if not default value
-	EFM_ASSERT(read_arr[0] == expected_value || read_arr[0] == 0b10111010); // for testing
+	EFM_ASSERT(read_arr[0] == expected_value); // will fail if not default value
+	//EFM_ASSERT(read_arr[0] == expected_value || read_arr[0] == 0b10111010); // for testing
 
 	// Test 2: Write to User Register 1 to change from 12b to 13b temp measurement
 	// this is a single byte write to test simplest write functionality
@@ -400,7 +407,7 @@ void si7021_test(void){
 	si7021_read(I2C_ONE_BYTE_CC, SI7021_NUM_BYTES_TEMP_NOCHECKSUM, NO_EVENT);
 	//si7021_read_temp(NO_EVENT);
 	while(!i2c_idle()); // stall until i2c is done
-	float temp = si7021_last_temp_f();	// get data and compare
+	float temp = si7021_convert_temp_f();	// get data and compare
 	EFM_ASSERT(temp > 60 && temp < 90); // will fail if the temperature isn't in a reasonable range
 
 	// Test 4: Read Electronic Serial Number

@@ -148,31 +148,6 @@ void scheduled_letimer0_comp1_evt(void){
 
 /***************************************************************************//**
  * @brief
- *	Handles the SI7021 Temperature Read Complete event
- *
- * @details
- *	This function clears the scheduled event and then handles the
- *	Temperature Read Complete event.
- *
- *
- ******************************************************************************/
-void scheduled_si7021_read_temp_done_evt(void){
-	EFM_ASSERT(get_scheduled_events() & SI7021_READ_TEMP_DONE_EVT);
-	remove_scheduled_event(SI7021_READ_TEMP_DONE_EVT);
-	float temp = si7021_last_temp_f();
-	if(temp >= 80.0) {
-		// turn on GPIO pin LED 1
-		GPIO_PinOutSet(LED1_port, LED1_pin);
-	} else {
-		// turn off LED 1
-		GPIO_PinOutClear(LED1_port, LED1_pin);
-	}
-	sprintf(buffer, "Temp = %d.%d F\n", (int)temp, (int)(temp*10)%10);
-	ble_write(buffer);
-}
-
-/***************************************************************************//**
- * @brief
  *	Handles the SI7021 Relative Humidity Read Complete event
  *
  * @details
@@ -184,7 +159,11 @@ void scheduled_si7021_read_temp_done_evt(void){
 void scheduled_si7021_read_rh_done_evt(void){
 	EFM_ASSERT(get_scheduled_events() & SI7021_READ_RH_DONE_EVT);
 	remove_scheduled_event(SI7021_READ_RH_DONE_EVT);
-	// TODO: finish this
+
+	float rh = si7021_convert_rh();
+	sprintf(buffer, "Humidity = %d.%d %% \n", (int)rh, (int)(rh*10)%10);
+	ble_write(buffer);
+	si7021_read_rh_temp(SI7021_READ_RH_TEMP_DONE_EVT);
 }
 
 /***************************************************************************//**
@@ -201,8 +180,32 @@ void scheduled_si7021_read_rh_temp_done_evt(void){
 	EFM_ASSERT(get_scheduled_events() & SI7021_READ_RH_TEMP_DONE_EVT);
 	remove_scheduled_event(SI7021_READ_RH_TEMP_DONE_EVT);
 
-	// TODO: update this
-	float temp = si7021_last_temp_f();
+	float temp = si7021_convert_temp_f();
+	if(temp >= 80.0) {
+		// turn on GPIO pin LED 1
+		GPIO_PinOutSet(LED1_port, LED1_pin);
+	} else {
+		// turn off LED 1
+		GPIO_PinOutClear(LED1_port, LED1_pin);
+	}
+	sprintf(buffer, "Temp = %d.%d F\n", (int)temp, (int)(temp*10)%10);
+	ble_write(buffer);
+}
+
+/***************************************************************************//**
+ * @brief
+ *	Handles the SI7021 Temperature Read Complete event
+ *
+ * @details
+ *	This function clears the scheduled event and then handles the
+ *	Temperature Read Complete event.
+ *
+ *
+ ******************************************************************************/
+void scheduled_si7021_read_temp_done_evt(void){
+	EFM_ASSERT(get_scheduled_events() & SI7021_READ_TEMP_DONE_EVT);
+	remove_scheduled_event(SI7021_READ_TEMP_DONE_EVT);
+	float temp = si7021_convert_temp_f();
 	if(temp >= 80.0) {
 		// turn on GPIO pin LED 1
 		GPIO_PinOutSet(LED1_port, LED1_pin);
@@ -220,7 +223,7 @@ void scheduled_si7021_read_rh_temp_done_evt(void){
  *
  * @details
  *	This function clears the scheduled event and then handles the
- *	Boot Up event.
+ *	Boot Up event. This includes all tests and the initial BLE writes.
  *
  *
  ******************************************************************************/
@@ -228,7 +231,7 @@ void scheduled_boot_up_evt(void){
 	EFM_ASSERT(get_scheduled_events() & BOOT_UP_EVT);
 	remove_scheduled_event(BOOT_UP_EVT);
 
-	//do stuff
+	// enable tests in app.h
 #ifdef BLE_TEST_ENABLED
 	bool test = ble_test("GiselleKoo");
 	EFM_ASSERT(test);
@@ -245,7 +248,6 @@ void scheduled_boot_up_evt(void){
 	ble_write("Giselle Koo\n");
 
 
-
 }
 
 /***************************************************************************//**
@@ -254,7 +256,10 @@ void scheduled_boot_up_evt(void){
  *
  * @details
  *	This function clears the scheduled event and then handles the
- *	TX Done event.
+ *	TX Done event. It checks to see if there's more things to send in the
+ *	circular buffer, and initiates that transmit if there is.
+ *
+ *	Then it restarts the timer.
  *
  *
  ******************************************************************************/
@@ -282,6 +287,6 @@ void scheduled_rx_done_evt(void){
 	remove_scheduled_event(BLE_RX_DONE_EVT);
 
 	//do stuff
-	// TODO: complete this function
+	// TODO: complete this function if needed
 
 }

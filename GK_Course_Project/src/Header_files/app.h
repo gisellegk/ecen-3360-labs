@@ -31,7 +31,8 @@
 // TDD Test Enables
 // #define BLE_TEST_ENABLED
 // #define CIRC_BUFF_TEST_ENABLED
-#define SI7021_TEST_ENABLED
+//#define SI7021_TEST_ENABLED
+
 //***********************************************************************************
 // global variables
 //***********************************************************************************

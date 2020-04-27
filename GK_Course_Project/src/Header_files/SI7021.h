@@ -14,18 +14,18 @@
 #define		SI7021_I2C_FREQ			I2C_FREQ_FAST_MAX // 400kHz max.
 #define		SI7021_I2C_CLK_RATIO	i2cClockHLRAsymetric // 6:3 for fast max. try standard if having issues.
 // for the Si7021 ROUTELOC value is #15 for both SDA and SCL (i2c0 on pc10 and 11)
-#define		SI7021_SCL_LOC			_I2C_ROUTELOC0_SCLLOC_LOC15
+#define		SI7021_SCL_LOC			SI7021_SCL_LOC_i2c1
 #define		SI7021_SCL_LOC_i2c0			_I2C_ROUTELOC0_SCLLOC_LOC15
 #define 	SI7021_SCL_LOC_i2c1			_I2C_ROUTELOC0_SCLLOC_LOC19
 
 #define		SI7021_SCL_EN			true
 
-#define		SI7021_SDA_LOC			_I2C_ROUTELOC0_SDALOC_LOC15
+#define		SI7021_SDA_LOC			SI7021_SDA_LOC_i2c1
 #define		SI7021_SDA_LOC_i2c0			_I2C_ROUTELOC0_SDALOC_LOC15
 #define		SI7021_SDA_LOC_i2c1			_I2C_ROUTELOC0_SDALOC_LOC19
 
 #define		SI7021_SDA_EN			true
-#define 	SI7021_I2C				I2C0 // default i2c for app use
+#define 	SI7021_I2C				I2C1 // default i2c for app use
 #define 	SI7021_REF_FREQ			0 // HF peripheral clock
 
 // Command Codes
@@ -59,7 +59,7 @@
 // global variables
 //***********************************************************************************
 
-void si7021_i2c_open();
+void si7021_i2c_open(void);
 void si7021_read(uint8_t command_code_length, uint8_t read_length, uint32_t event);
 void si7021_write(uint8_t command_code_length, uint8_t write_length, uint32_t event);
 
@@ -72,8 +72,8 @@ void si7021_read_ur1(uint32_t event);
 void si7021_read_SNB(uint32_t event);
 
 // get last data
-float si7021_last_temp_f(void);
-float si7021_last_humidity(void);
+float si7021_convert_temp_f(void);
+float si7021_convert_rh(void);
 
 // TDD test
 void si7021_test(void);

@@ -195,6 +195,35 @@ void I2C0_IRQHandler(void){
 
 /***************************************************************************//**
  * @brief
+ *	IRQ handler for I2C1
+ *
+ * @details
+ *	This is an IRQ handler for I2C1.
+ *
+ * @note
+ *	This is currently configured to handle the interrupts for ACK, NACK, RXDATAV,
+ *	and MSTOP. Interrupts are enabled in the i2c_open function.
+ *
+ *
+ ******************************************************************************/
+void I2C1_IRQHandler(void){
+	uint32_t interrupt_flags = I2C_IntGet(I2C1) & I2C_IntGetEnabled(I2C1);
+	I2C_IntClear(I2C1, interrupt_flags);
+	if(interrupt_flags & I2C_IEN_ACK){
+		i2c_ack();
+	}
+	if(interrupt_flags & I2C_IEN_NACK){
+		i2c_nack();
+	}
+	if(interrupt_flags & I2C_IEN_RXDATAV){
+		i2c_rxdatav();
+	}
+	if(interrupt_flags & I2C_IEN_MSTOP){
+		i2c_mstop();
+	}
+}
+/***************************************************************************//**
+ * @brief
  *	Function to start an I2C read or write operation
  *
  * @details
@@ -243,6 +272,7 @@ void i2c_start(I2C_TypeDef *i2c, I2C_START_STRUCT* start_struct){
 	i2c_payload.device_address = start_struct->device_address;
 	i2c_payload.read = start_struct->read;
 	i2c_payload.write_length = start_struct->command_code_length + start_struct->write_length;
+	EFM_ASSERT(i2c_payload.write_length <= I2C_WRITE_LIMIT);
 	// construct write array
 
 	for(int i = 0; i < start_struct->command_code_length; i++){

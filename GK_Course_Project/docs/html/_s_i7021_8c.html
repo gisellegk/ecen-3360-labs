@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GK CB_ Lab: src/Source_files/SI7021.c File Reference</title>
+<title>GK Course Project: src/Source_files/SI7021.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,9 +25,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">GK CB_ Lab
+   <div id="projectname">GK Course Project
    </div>
-   <div id="projectbrief">DDL Lab 6</div>
+   <div id="projectbrief">DDL Final Project</div>
   </td>
  </tr>
  </tbody>
@@ -83,6 +83,7 @@ $(document).ready(function(){initNavTree('_s_i7021_8c.html',''); initResizable()
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">SI7021.c File Reference</div>  </div>
@@ -91,32 +92,116 @@ $(document).ready(function(){initNavTree('_s_i7021_8c.html',''); initResizable()
 
 <p>Contains all the functions to interface with the SI7021 Temp/Humidity sensor.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;em_i2c.h&quot;</code><br />
+<div class="textblock"><code>#include &lt;string.h&gt;</code><br />
+<code>#include &quot;em_i2c.h&quot;</code><br />
 <code>#include &quot;em_cmu.h&quot;</code><br />
 <code>#include &quot;em_assert.h&quot;</code><br />
 <code>#include &quot;SI7021.h&quot;</code><br />
 <code>#include &quot;gpio.h&quot;</code><br />
 <code>#include &quot;i2c.h&quot;</code><br />
+<code>#include &quot;HW_delay.h&quot;</code><br />
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ab0f30b9957476899f0b8c7cb24f1cb4d"><td class="memItemLeft" align="right" valign="top"><a id="ab0f30b9957476899f0b8c7cb24f1cb4d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>NO_EVENT</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:ab0f30b9957476899f0b8c7cb24f1cb4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93605aa7dde7605ee271ba45f8e51633"><td class="memItemLeft" align="right" valign="top"><a id="a93605aa7dde7605ee271ba45f8e51633"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>SI7021_TEST_DELAY</b>&#160;&#160;&#160;80</td></tr>
+<tr class="separator:a93605aa7dde7605ee271ba45f8e51633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aac5cc7d71b3f6518c327b87578f8b582"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#aac5cc7d71b3f6518c327b87578f8b582">si7021_i2c_open</a> ()</td></tr>
-<tr class="memdesc:aac5cc7d71b3f6518c327b87578f8b582"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function to open an I2C port for the SI7021 Temperature and Humidity Sensor onboard the Pearl Gecko Starter Kit.  <a href="_s_i7021_8c.html#aac5cc7d71b3f6518c327b87578f8b582">More...</a><br /></td></tr>
-<tr class="separator:aac5cc7d71b3f6518c327b87578f8b582"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7eff0f38ab2bd59897e5c6c9f5612d06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#a7eff0f38ab2bd59897e5c6c9f5612d06">si7021_read</a> (uint32_t event)</td></tr>
-<tr class="memdesc:a7eff0f38ab2bd59897e5c6c9f5612d06"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function that requests the temperature to be read from the SI7021 Temperature and Humidity sensor.  <a href="_s_i7021_8c.html#a7eff0f38ab2bd59897e5c6c9f5612d06">More...</a><br /></td></tr>
-<tr class="separator:a7eff0f38ab2bd59897e5c6c9f5612d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47da3d72611f48d725d2d1a9a1642186"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#a47da3d72611f48d725d2d1a9a1642186">si7021_last_temp_f</a> ()</td></tr>
-<tr class="memdesc:a47da3d72611f48d725d2d1a9a1642186"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function which returns the most recently read temperature measurement.  <a href="_s_i7021_8c.html#a47da3d72611f48d725d2d1a9a1642186">More...</a><br /></td></tr>
-<tr class="separator:a47da3d72611f48d725d2d1a9a1642186"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62799fe160b8cf9a44c1eee1ddb5a7ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#a62799fe160b8cf9a44c1eee1ddb5a7ea">si7021_i2c_open</a> (void)</td></tr>
+<tr class="memdesc:a62799fe160b8cf9a44c1eee1ddb5a7ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function to open an I2C port for the SI7021 Temperature and Humidity Sensor onboard the Pearl Gecko Starter Kit.  <a href="_s_i7021_8c.html#a62799fe160b8cf9a44c1eee1ddb5a7ea">More...</a><br /></td></tr>
+<tr class="separator:a62799fe160b8cf9a44c1eee1ddb5a7ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a40b88612c95b6f956a3225a94b8e08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#a8a40b88612c95b6f956a3225a94b8e08">si7021_read</a> (uint8_t command_code_length, uint8_t read_length, uint32_t event)</td></tr>
+<tr class="memdesc:a8a40b88612c95b6f956a3225a94b8e08"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function that requests a read from the SI7021 Temperature and Humidity sensor.  <a href="_s_i7021_8c.html#a8a40b88612c95b6f956a3225a94b8e08">More...</a><br /></td></tr>
+<tr class="separator:a8a40b88612c95b6f956a3225a94b8e08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9289176d0efa76a3a8826b31df74e3cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#a9289176d0efa76a3a8826b31df74e3cf">si7021_write</a> (uint8_t command_code_length, uint8_t write_length, uint32_t event)</td></tr>
+<tr class="memdesc:a9289176d0efa76a3a8826b31df74e3cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function that requests a write from the SI7021 Temperature and Humidity sensor.  <a href="_s_i7021_8c.html#a9289176d0efa76a3a8826b31df74e3cf">More...</a><br /></td></tr>
+<tr class="separator:a9289176d0efa76a3a8826b31df74e3cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a327d1c017e3bfc65c161f7e2aa92d4b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#a327d1c017e3bfc65c161f7e2aa92d4b2">si7021_read_rh</a> (uint32_t event)</td></tr>
+<tr class="memdesc:a327d1c017e3bfc65c161f7e2aa92d4b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function to initiate a Read RH Sequence.  <a href="_s_i7021_8c.html#a327d1c017e3bfc65c161f7e2aa92d4b2">More...</a><br /></td></tr>
+<tr class="separator:a327d1c017e3bfc65c161f7e2aa92d4b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a3284d5be42abde516c5a8d1a6a9765"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#a1a3284d5be42abde516c5a8d1a6a9765">si7021_read_temp</a> (uint32_t event)</td></tr>
+<tr class="memdesc:a1a3284d5be42abde516c5a8d1a6a9765"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function to initiate a Read Temperature Sequence.  <a href="_s_i7021_8c.html#a1a3284d5be42abde516c5a8d1a6a9765">More...</a><br /></td></tr>
+<tr class="separator:a1a3284d5be42abde516c5a8d1a6a9765"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c6b72d9f695f1149f0e41f4da1003a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#a4c6b72d9f695f1149f0e41f4da1003a6">si7021_read_rh_temp</a> (uint32_t event)</td></tr>
+<tr class="memdesc:a4c6b72d9f695f1149f0e41f4da1003a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function to initiate a Read Temperature from Previous RH Sequence.  <a href="_s_i7021_8c.html#a4c6b72d9f695f1149f0e41f4da1003a6">More...</a><br /></td></tr>
+<tr class="separator:a4c6b72d9f695f1149f0e41f4da1003a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a198b2d6c5d6c4e1196947cf2c8a5344f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#a198b2d6c5d6c4e1196947cf2c8a5344f">si7021_read_ur1</a> (uint32_t event)</td></tr>
+<tr class="memdesc:a198b2d6c5d6c4e1196947cf2c8a5344f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function to initiate a Read User Register 1.  <a href="_s_i7021_8c.html#a198b2d6c5d6c4e1196947cf2c8a5344f">More...</a><br /></td></tr>
+<tr class="separator:a198b2d6c5d6c4e1196947cf2c8a5344f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf9b77c455d1eb418ce13002247508ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#abf9b77c455d1eb418ce13002247508ac">si7021_write_ur1</a> (uint8_t byte, uint32_t event)</td></tr>
+<tr class="memdesc:abf9b77c455d1eb418ce13002247508ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function to initiate a Write User Register 1.  <a href="_s_i7021_8c.html#abf9b77c455d1eb418ce13002247508ac">More...</a><br /></td></tr>
+<tr class="separator:abf9b77c455d1eb418ce13002247508ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44acd4388d34fe474d94a122aee5207f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#a44acd4388d34fe474d94a122aee5207f">si7021_read_SNB</a> (uint32_t event)</td></tr>
+<tr class="memdesc:a44acd4388d34fe474d94a122aee5207f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function to initiate a Read Serial Number sequence part B.  <a href="_s_i7021_8c.html#a44acd4388d34fe474d94a122aee5207f">More...</a><br /></td></tr>
+<tr class="separator:a44acd4388d34fe474d94a122aee5207f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad80fa8c50f766de89ba3a34c9c1b2e1d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#ad80fa8c50f766de89ba3a34c9c1b2e1d">si7021_convert_temp_f</a> (void)</td></tr>
+<tr class="memdesc:ad80fa8c50f766de89ba3a34c9c1b2e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function which returns the most recently read temperature measurement.  <a href="_s_i7021_8c.html#ad80fa8c50f766de89ba3a34c9c1b2e1d">More...</a><br /></td></tr>
+<tr class="separator:ad80fa8c50f766de89ba3a34c9c1b2e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc9d7aed78644e10e6f73624d46cfce1"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#adc9d7aed78644e10e6f73624d46cfce1">si7021_convert_rh</a> (void)</td></tr>
+<tr class="memdesc:adc9d7aed78644e10e6f73624d46cfce1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A function which returns the most recently read relative humidity measurement.  <a href="_s_i7021_8c.html#adc9d7aed78644e10e6f73624d46cfce1">More...</a><br /></td></tr>
+<tr class="separator:adc9d7aed78644e10e6f73624d46cfce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3d664068bbd1d2c5e89ff659c1eb0ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s_i7021_8c.html#aa3d664068bbd1d2c5e89ff659c1eb0ad">si7021_test</a> (void)</td></tr>
+<tr class="memdesc:aa3d664068bbd1d2c5e89ff659c1eb0ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">SI7021 Read/Write test. This is a Test Driven Development routine to verify that the I2C peripheral is correctly configured to communicate with the SI7021 device. It also configures the SI7021 sensor to report 10 bit Relative Humidity and 13 bit Temperature data.  <a href="_s_i7021_8c.html#aa3d664068bbd1d2c5e89ff659c1eb0ad">More...</a><br /></td></tr>
+<tr class="separator:aa3d664068bbd1d2c5e89ff659c1eb0ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains all the functions to interface with the SI7021 Temp/Humidity sensor. </p>
 <dl class="section author"><dt>Author</dt><dd>Giselle Koo </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>Feb 25, 2020 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="aac5cc7d71b3f6518c327b87578f8b582"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac5cc7d71b3f6518c327b87578f8b582">&#9670;&nbsp;</a></span>si7021_i2c_open()</h2>
+<a id="adc9d7aed78644e10e6f73624d46cfce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc9d7aed78644e10e6f73624d46cfce1">&#9670;&nbsp;</a></span>si7021_convert_rh()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float si7021_convert_rh </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A function which returns the most recently read relative humidity measurement. </p>
+<p>This function interprets the data received from the SI7021 as raw humidity data and converts it to Relative Humidity as a percent.</p>
+<dl class="section note"><dt>Note</dt><dd>This should only be called upon the completion of the si7021_read_rh function. Calling it at any other time will give an invalid result</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the last received relative humidity value as a percentage. </dd></dl>
+
+</div>
+</div>
+<a id="ad80fa8c50f766de89ba3a34c9c1b2e1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad80fa8c50f766de89ba3a34c9c1b2e1d">&#9670;&nbsp;</a></span>si7021_convert_temp_f()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float si7021_convert_temp_f </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A function which returns the most recently read temperature measurement. </p>
+<p>This function reads the raw temperature data received from the SI7021 Temperature and Humidity sensor, converts it into Celsius per the data sheet specifications, and then converts it into Fahrenheit to return.</p>
+<dl class="section note"><dt>Note</dt><dd>This should only be called upon the completion of either si7021_read_temp or si7021_read_rh_temp functions. Calling it at any other time will give an invalid result</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the last received temperature, as a float, in degrees Fahrenheit. </dd></dl>
+
+</div>
+</div>
+<a id="a62799fe160b8cf9a44c1eee1ddb5a7ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62799fe160b8cf9a44c1eee1ddb5a7ea">&#9670;&nbsp;</a></span>si7021_i2c_open()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -124,6 +209,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void si7021_i2c_open </td>
           <td>(</td>
+          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -135,36 +221,59 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a47da3d72611f48d725d2d1a9a1642186"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47da3d72611f48d725d2d1a9a1642186">&#9670;&nbsp;</a></span>si7021_last_temp_f()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">float si7021_last_temp_f </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>A function which returns the most recently read temperature measurement. </p>
-<p>This function reads the raw temperature data received from the SI7021 Temperature and Humidity sensor, converts it into Celsius per the data sheet specifications, and then converts it into Fahrenheit to return.</p>
-<dl class="section note"><dt>Note</dt><dd>This should only be called upon the completion of the SI7021_TEMP_READ_COMPLETE_EVT</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>the last received temperature, as a float, in degrees Fahrenheit. </dd></dl>
-
-</div>
-</div>
-<a id="a7eff0f38ab2bd59897e5c6c9f5612d06"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7eff0f38ab2bd59897e5c6c9f5612d06">&#9670;&nbsp;</a></span>si7021_read()</h2>
+<a id="a8a40b88612c95b6f956a3225a94b8e08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a40b88612c95b6f956a3225a94b8e08">&#9670;&nbsp;</a></span>si7021_read()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void si7021_read </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>command_code_length</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>read_length</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>event</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A function that requests a read from the SI7021 Temperature and Humidity sensor. </p>
+<p>This starts the I2C state machine to perform a read. It is required to put the command code in the private command_code array before calling this function. Results will be stored in the private read_arr array which can be accessed with either <a class="el" href="_s_i7021_8c.html#ad80fa8c50f766de89ba3a34c9c1b2e1d" title="A function which returns the most recently read temperature measurement.">si7021_convert_temp_f()</a> or <a class="el" href="_s_i7021_8c.html#adc9d7aed78644e10e6f73624d46cfce1" title="A function which returns the most recently read relative humidity measurement.">si7021_convert_rh()</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">command_code_length</td><td>The number of bytes in the command code array</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">read_length</td><td>The number of bytes expected to be read</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>The scheduler event associated with a completed Read operation. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a327d1c017e3bfc65c161f7e2aa92d4b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a327d1c017e3bfc65c161f7e2aa92d4b2">&#9670;&nbsp;</a></span>si7021_read_rh()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void si7021_read_rh </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>event</em></td><td>)</td>
@@ -173,12 +282,230 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>A function that requests the temperature to be read from the SI7021 Temperature and Humidity sensor. </p>
-<p>This function initiates a Measure Temperature command in No Hold Master Mode.</p>
-<dl class="section note"><dt>Note</dt><dd>This starts the I2C state machine.</dd></dl>
+<p>A function to initiate a Read RH Sequence. </p>
+<p>This function initiates the read command to get a Relative Humidity reading from the SI021 sensor</p>
+<dl class="section note"><dt>Note</dt><dd>To get the data read from this function, use <a class="el" href="_s_i7021_8c.html#adc9d7aed78644e10e6f73624d46cfce1" title="A function which returns the most recently read relative humidity measurement.">si7021_convert_rh(void)</a>. After the RH data has been converted and stored, you can use <a class="el" href="_s_i7021_8c.html#a4c6b72d9f695f1149f0e41f4da1003a6" title="A function to initiate a Read Temperature from Previous RH Sequence.">si7021_read_rh_temp()</a> to read the associated temperature reading without starting a whole new conversion. You must access the data before calling another reading function.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>The scheduler event associated with a completed Measure Temperature operation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>The scheduler event associated with a completed Read RH operation. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4c6b72d9f695f1149f0e41f4da1003a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c6b72d9f695f1149f0e41f4da1003a6">&#9670;&nbsp;</a></span>si7021_read_rh_temp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void si7021_read_rh_temp </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A function to initiate a Read Temperature from Previous RH Sequence. </p>
+<p>This function initiates the read command to get a Temperature reading from the SI021 sensor that was taken during a Relative Humidity conversion. To get the data read from this function, use <a class="el" href="_s_i7021_8c.html#ad80fa8c50f766de89ba3a34c9c1b2e1d" title="A function which returns the most recently read temperature measurement.">si7021_convert_temp_f(void)</a>.</p>
+<dl class="section note"><dt>Note</dt><dd>This version of temperature read will NOT start a new conversion, and can only be called after <a class="el" href="_s_i7021_8c.html#a327d1c017e3bfc65c161f7e2aa92d4b2" title="A function to initiate a Read RH Sequence.">si7021_read_rh()</a>. You must access the data before calling another reading function.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>The scheduler event associated with a completed Read Temperature operation. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a44acd4388d34fe474d94a122aee5207f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44acd4388d34fe474d94a122aee5207f">&#9670;&nbsp;</a></span>si7021_read_SNB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void si7021_read_SNB </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A function to initiate a Read Serial Number sequence part B. </p>
+<p>This function initiates the read command to get the Electronic Serial Number part B from the Si7021 device. The first byte return indicates the sensor part number of the device you are communicating with.</p>
+<p>You must access the data before calling another reading function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>The scheduler event associated with a completed Write UR1 operation. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1a3284d5be42abde516c5a8d1a6a9765"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a3284d5be42abde516c5a8d1a6a9765">&#9670;&nbsp;</a></span>si7021_read_temp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void si7021_read_temp </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A function to initiate a Read Temperature Sequence. </p>
+<p>This function initiates the read command to get a Temperature reading from the SI021 sensor. To get the data read from this function, use <a class="el" href="_s_i7021_8c.html#ad80fa8c50f766de89ba3a34c9c1b2e1d" title="A function which returns the most recently read temperature measurement.">si7021_convert_temp_f(void)</a>.</p>
+<dl class="section note"><dt>Note</dt><dd>This version of temperature read will start a conversion, and then report the results back. Use <a class="el" href="_s_i7021_8c.html#a4c6b72d9f695f1149f0e41f4da1003a6" title="A function to initiate a Read Temperature from Previous RH Sequence.">si7021_read_rh_temp()</a> to read a temperature that was measured during a relative humidity conversion. You must access the data before calling another reading function.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>The scheduler event associated with a completed Read Temperature operation. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a198b2d6c5d6c4e1196947cf2c8a5344f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a198b2d6c5d6c4e1196947cf2c8a5344f">&#9670;&nbsp;</a></span>si7021_read_ur1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void si7021_read_ur1 </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>event</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A function to initiate a Read User Register 1. </p>
+<p>This function initiates the read command to get the current value of the User Register from the Si7021 device To get the data read from this function, read the private read_arr array. You must access the data before calling another reading function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>The scheduler event associated with a completed Read UR1 operation. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa3d664068bbd1d2c5e89ff659c1eb0ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3d664068bbd1d2c5e89ff659c1eb0ad">&#9670;&nbsp;</a></span>si7021_test()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void si7021_test </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>SI7021 Read/Write test. This is a Test Driven Development routine to verify that the I2C peripheral is correctly configured to communicate with the SI7021 device. It also configures the SI7021 sensor to report 10 bit Relative Humidity and 13 bit Temperature data. </p>
+<p>This tests our ability to read and write bytes to and from the SI7021. The SI7021 requires at least 80 ms of delay to make sure that the device has successfully initialized. After this, it reads the the SI7021 User 1 Register to make sure that we can perform a simple 1 byte read. It checks to make sure that the SI7021 is in its default state (0011 1010) before proceeding</p>
+<p>Then it writes a new byte such that the temp resolution is now 13b instead of 14b (1011 1010). This allows us to check that we can write 1 byte.</p>
+<p>The SI7021 requires at least 80 ms of delay to make sure that the write has completed. We delay for that amount of time, and then read the register to make sure that the write competed.</p>
+<p>Finally, it performs one temperature reading and validates that the data is in a reasonable (near room temperature) range. </p>
+
+</div>
+</div>
+<a id="a9289176d0efa76a3a8826b31df74e3cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9289176d0efa76a3a8826b31df74e3cf">&#9670;&nbsp;</a></span>si7021_write()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void si7021_write </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>command_code_length</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>write_length</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>event</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A function that requests a write from the SI7021 Temperature and Humidity sensor. </p>
+<p>This starts the I2C state machine. It will write bytes to the device. It is required to put the command code in the private command_code array, and the desired write bytes in the private write_arr array before calling this function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">command_code_length</td><td>The number of bytes in the command code array</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">write_length</td><td>The number of bytes of data to be written</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>The scheduler event associated with a completed Write operation. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abf9b77c455d1eb418ce13002247508ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf9b77c455d1eb418ce13002247508ac">&#9670;&nbsp;</a></span>si7021_write_ur1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void si7021_write_ur1 </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>byte</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>event</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A function to initiate a Write User Register 1. </p>
+<p>This function initiates the write command to overwrite the current value of the User Register from the Si7021 device with the provided value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">byte</td><td>The byte value that will be written to the register.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>The scheduler event associated with a completed Write UR1 operation. </td></tr>
   </table>
   </dd>
 </dl>

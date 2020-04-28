@@ -106,15 +106,12 @@ void si7021_i2c_open(void)
 
 /***************************************************************************//**
  * @brief
- *	A function that requests a read from the SI7021
- *	Temperature and Humidity sensor.
+ *	A function that requests a read from the SI7021 Temperature and Humidity sensor.
  *
  * @details
- *  This starts the I2C state machine. It will save the data in the static local
- *  variable in Si7021.c
- *
- * @note
- * 	It is required to put the command code in the private command_code array.
+ *  This starts the I2C state machine to perform a read.
+ * 	It is required to put the command code in the private command_code array
+ * 	before calling this function.
  * 	Results will be stored in the private read_arr array which can be accessed
  * 	with either si7021_convert_temp_f() or si7021_convert_rh().
  *
@@ -149,19 +146,15 @@ void si7021_read(uint8_t command_code_length, uint8_t read_length, uint32_t even
  *	A function that requests a write from the SI7021 Temperature and Humidity sensor.
  *
  * @details
- *  This starts the I2C state machine. It will write bytes to the device
- *
- * @param[in] command_code
- * 	 The command code of the write operation. This must be a pointer, and should
- * 	 point to an array if there is more than 1 byte in the command code.
+ *  This starts the I2C state machine. It will write bytes to the device.
+ * 	It is required to put the command code in the private command_code array,
+ * 	and the desired write bytes in the private write_arr array before calling
+ * 	this function.
  *
  * @param[in] command_code_length
  *   The number of bytes in the command code array
  *
- * @param[in] write_arr
- *   The pointer to where the data to write to the sensor is stored
-
- * @param[in] read_length
+ * @param[in] write_length
  *   The number of bytes of data to be written
  *
  * @param[in] event
@@ -192,11 +185,15 @@ void si7021_write(uint8_t command_code_length, uint8_t write_length, uint32_t ev
  *	This function initiates the read command to get a Relative Humidity reading
  *	from the SI021 sensor
  *
- *
  * @note
- *	After this function is called, you can use si7021_read_rh_temp() to read
- *	the associated temperature reading without starting a whole new conversion.
+ *  To get the data read from this function, use si7021_convert_rh(void).
+ *	After the RH data has been converted and stored, you can use
+ *	si7021_read_rh_temp() to read the associated temperature reading without
+ *	starting a whole new conversion.
+ *	You must access the data before calling another reading function.
  *
+ * @param[in] event
+ * 	 The scheduler event associated with a completed Read RH operation.
  *
  ******************************************************************************/
 void si7021_read_rh(uint32_t event){
@@ -211,13 +208,17 @@ void si7021_read_rh(uint32_t event){
  *
  * @details
  *	This function initiates the read command to get a Temperature reading
- *	from the SI021 sensor
- *
+ *	from the SI021 sensor.
+ *	To get the data read from this function, use si7021_convert_temp_f(void).
  *
  * @note
  *	This version of temperature read will start a conversion, and then report
  *	the results back. Use si7021_read_rh_temp() to read a temperature that was
  *	measured during a relative humidity conversion.
+ *	You must access the data before calling another reading function.
+ *
+ * @param[in] event
+ * 	 The scheduler event associated with a completed Read Temperature operation.
  *
  ******************************************************************************/
 void si7021_read_temp(uint32_t event){
@@ -232,11 +233,16 @@ void si7021_read_temp(uint32_t event){
  *
  * @details
  *	This function initiates the read command to get a Temperature reading
- *	from the SI021 sensor that was taken during a Relative Humidity conversion
+ *	from the SI021 sensor that was taken during a Relative Humidity conversion.
+ *	To get the data read from this function, use si7021_convert_temp_f(void).
  *
  * @note
  *	This version of temperature read will NOT start a new conversion, and can only
  *	be called after si7021_read_rh().
+ *	You must access the data before calling another reading function.
+ *
+ * @param[in] event
+ * 	 The scheduler event associated with a completed Read Temperature operation.
  *
  ******************************************************************************/
 void si7021_read_rh_temp(uint32_t event){
@@ -252,6 +258,11 @@ void si7021_read_rh_temp(uint32_t event){
  * @details
  *	This function initiates the read command to get the current value of the
  *	User Register from the Si7021 device
+ *	To get the data read from this function, read the private read_arr array.
+ *	You must access the data before calling another reading function.
+ *
+ * @param[in] event
+ * 	 The scheduler event associated with a completed Read UR1 operation.
  *
  ******************************************************************************/
 void si7021_read_ur1(uint32_t event){
@@ -268,6 +279,12 @@ void si7021_read_ur1(uint32_t event){
  *	This function initiates the write command to overwrite the current value of the
  *	User Register from the Si7021 device with the provided value.
  *
+ * @param[in] byte
+ *   The byte value that will be written to the register.
+ *
+ * @param[in] event
+ * 	 The scheduler event associated with a completed Write UR1 operation.
+ *
  ******************************************************************************/
 void si7021_write_ur1(uint8_t byte, uint32_t event){
 	clear_i2c_arrays();
@@ -282,7 +299,13 @@ void si7021_write_ur1(uint8_t byte, uint32_t event){
  *
  * @details
  *	This function initiates the read command to get the Electronic Serial
- *	Number part B from the Si7021 device
+ *	Number part B from the Si7021 device. The first byte return indicates the
+ *	sensor part number of the device you are communicating with.
+ *
+ *	You must access the data before calling another reading function.
+ *
+ * @param[in] event
+ * 	 The scheduler event associated with a completed Write UR1 operation.
  *
  ******************************************************************************/
 void si7021_read_SNB(uint32_t event){
@@ -302,15 +325,15 @@ void si7021_read_SNB(uint32_t event){
  *	data sheet specifications, and then converts it into Fahrenheit to return.
  *
  * @note
- *	This should only be called upon the completion of either the
- *	SI7021_READ_RH_TEMP_DONE_EVT or SI_7021_READ_TEMP_DONE_EVT.
- *
+ *	This should only be called upon the completion of either si7021_read_temp
+ *	or si7021_read_rh_temp functions. Calling it at any other time will give
+ *	an invalid result
  *
  * @return
  * 	the last received temperature, as a float, in degrees Fahrenheit.
  *
  ******************************************************************************/
-float si7021_convert_temp_f(){
+float si7021_convert_temp_f(void){
 	uint16_t temp_code = (read_arr[0] << 8) | read_arr[1];
 	float temp_c = ((float)175.72*(float)temp_code / (float)65536) - (float)46.85;
 	return (temp_c * (float)1.8 + (float)32);
@@ -321,17 +344,18 @@ float si7021_convert_temp_f(){
  *	A function which returns the most recently read relative humidity measurement.
  *
  * @details
- *	This function reads the raw humidity data received from the SI7021
- *	Temperature and Humidity sensor,
+ *	This function interprets the data received from the SI7021 as raw humidity
+ *	data and converts it to Relative Humidity as a percent.
  *
  * @note
- *	This should only be called upon the completion of the SI7021_READ_RH_DONE_EVT
+ *	This should only be called upon the completion of the si7021_read_rh function.
+ *  Calling it at any other time will give an invalid result
  *
  * @return
  * 	the last received relative humidity value as a percentage.
  *
  ******************************************************************************/
-float si7021_convert_rh(){
+float si7021_convert_rh(void){
 	uint16_t rh_code = (read_arr[0] << 8) | read_arr[1];
 	float rh = ((float)125.0*(float)rh_code / (float)65536) - (float)6.0;
 	return rh;

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GK Course Project: LEUART_PAYLOAD_STRUCT Struct Reference</title>
+<title>GK Course Project: I2C_START_STRUCT Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('struct_l_e_u_a_r_t___p_a_y_l_o_a_d___s_t_r_u_c_t.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('struct_i2_c___s_t_a_r_t___s_t_r_u_c_t.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -85,37 +85,49 @@ $(document).ready(function(){initNavTree('struct_l_e_u_a_r_t___p_a_y_l_o_a_d___s
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">LEUART_PAYLOAD_STRUCT Struct Reference</div>  </div>
+<div class="title">I2C_START_STRUCT Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a631b7ed548b49531e653ee0e6222c5be"><td class="memItemLeft" align="right" valign="top"><a id="a631b7ed548b49531e653ee0e6222c5be"></a>
-LEUART_State&#160;</td><td class="memItemRight" valign="bottom"><b>state</b></td></tr>
-<tr class="separator:a631b7ed548b49531e653ee0e6222c5be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af933dcd246920f4bc94d28095978b202"><td class="memItemLeft" align="right" valign="top"><a id="af933dcd246920f4bc94d28095978b202"></a>
-LEUART_TypeDef *&#160;</td><td class="memItemRight" valign="bottom"><b>leuart</b></td></tr>
-<tr class="separator:af933dcd246920f4bc94d28095978b202"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed1cfb225a5fb77461e7972691e68a72"><td class="memItemLeft" align="right" valign="top"><a id="aed1cfb225a5fb77461e7972691e68a72"></a>
-char *&#160;</td><td class="memItemRight" valign="bottom"><b>string</b></td></tr>
-<tr class="separator:aed1cfb225a5fb77461e7972691e68a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f5560733dafd6545d6fca4b3036e341"><td class="memItemLeft" align="right" valign="top"><a id="a3f5560733dafd6545d6fca4b3036e341"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>string_length</b></td></tr>
-<tr class="separator:a3f5560733dafd6545d6fca4b3036e341"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacaa9b5ac9a5660ea4274bfd30ab4b3d"><td class="memItemLeft" align="right" valign="top"><a id="aacaa9b5ac9a5660ea4274bfd30ab4b3d"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>char_index</b></td></tr>
-<tr class="separator:aacaa9b5ac9a5660ea4274bfd30ab4b3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32f3251e41b58001b8b6a97df656caf0"><td class="memItemLeft" align="right" valign="top"><a id="a32f3251e41b58001b8b6a97df656caf0"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>device_address</b></td></tr>
+<tr class="separator:a32f3251e41b58001b8b6a97df656caf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af49a80be54293d8b153cd2a3dfd4e068"><td class="memItemLeft" align="right" valign="top"><a id="af49a80be54293d8b153cd2a3dfd4e068"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>read</b></td></tr>
+<tr class="separator:af49a80be54293d8b153cd2a3dfd4e068"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a007d630ce2fb06bb50c5023e94f93d82"><td class="memItemLeft" align="right" valign="top"><a id="a007d630ce2fb06bb50c5023e94f93d82"></a>
+uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>command_code</b></td></tr>
+<tr class="separator:a007d630ce2fb06bb50c5023e94f93d82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83761b9fc42832e4d09e8aadd4711053"><td class="memItemLeft" align="right" valign="top"><a id="a83761b9fc42832e4d09e8aadd4711053"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>command_code_length</b></td></tr>
+<tr class="separator:a83761b9fc42832e4d09e8aadd4711053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af31ac343c607f1143f00f5d2312e697b"><td class="memItemLeft" align="right" valign="top"><a id="af31ac343c607f1143f00f5d2312e697b"></a>
+uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>write_arr</b></td></tr>
+<tr class="separator:af31ac343c607f1143f00f5d2312e697b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c9effdcace30b20361f033a64571e2b"><td class="memItemLeft" align="right" valign="top"><a id="a2c9effdcace30b20361f033a64571e2b"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>write_length</b></td></tr>
+<tr class="separator:a2c9effdcace30b20361f033a64571e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0778dd700e673a166b47d2ebd30881bc"><td class="memItemLeft" align="right" valign="top"><a id="a0778dd700e673a166b47d2ebd30881bc"></a>
+uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>read_arr</b></td></tr>
+<tr class="separator:a0778dd700e673a166b47d2ebd30881bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa827974e99a6fffb34927b7448c4e851"><td class="memItemLeft" align="right" valign="top"><a id="aa827974e99a6fffb34927b7448c4e851"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>read_length</b></td></tr>
+<tr class="separator:aa827974e99a6fffb34927b7448c4e851"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7c0c7abdee8faa6f35a8fb850dadbb3"><td class="memItemLeft" align="right" valign="top"><a id="af7c0c7abdee8faa6f35a8fb850dadbb3"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>event</b></td></tr>
+<tr class="separator:af7c0c7abdee8faa6f35a8fb850dadbb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>src/Source_files/<a class="el" href="leuart_8c.html">leuart.c</a></li>
+<li>src/Header_files/<a class="el" href="i2c_8h_source.html">i2c.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="struct_l_e_u_a_r_t___p_a_y_l_o_a_d___s_t_r_u_c_t.html">LEUART_PAYLOAD_STRUCT</a></li>
+    <li class="navelem"><a class="el" href="struct_i2_c___s_t_a_r_t___s_t_r_u_c_t.html">I2C_START_STRUCT</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.17 </li>

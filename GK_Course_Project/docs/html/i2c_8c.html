@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GK CB_ Lab: src/Source_files/i2c.c File Reference</title>
+<title>GK Course Project: src/Source_files/i2c.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,9 +25,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">GK CB_ Lab
+   <div id="projectname">GK Course Project
    </div>
-   <div id="projectbrief">DDL Lab 6</div>
+   <div id="projectbrief">DDL Final Project</div>
   </td>
  </tr>
  </tbody>
@@ -109,9 +109,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a8e817e99d2a59e5f48e4ff0c79e7eef5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="i2c_8c.html#a8e817e99d2a59e5f48e4ff0c79e7eef5">I2C0_IRQHandler</a> (void)</td></tr>
 <tr class="memdesc:a8e817e99d2a59e5f48e4ff0c79e7eef5"><td class="mdescLeft">&#160;</td><td class="mdescRight">IRQ handler for I2C0.  <a href="i2c_8c.html#a8e817e99d2a59e5f48e4ff0c79e7eef5">More...</a><br /></td></tr>
 <tr class="separator:a8e817e99d2a59e5f48e4ff0c79e7eef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1659e44b78b060c7efcaf42f3ded0f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="i2c_8c.html#ad1659e44b78b060c7efcaf42f3ded0f9">i2c_start</a> (I2C_TypeDef *i2c, uint8_t device_address, bool read, uint8_t command_code, uint8_t *data_arr, uint8_t data_arr_length, uint32_t event)</td></tr>
-<tr class="memdesc:ad1659e44b78b060c7efcaf42f3ded0f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to start an I2C read or write operation.  <a href="i2c_8c.html#ad1659e44b78b060c7efcaf42f3ded0f9">More...</a><br /></td></tr>
-<tr class="separator:ad1659e44b78b060c7efcaf42f3ded0f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac45e5675f6f4e6e1dee2273baf245219"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="i2c_8c.html#ac45e5675f6f4e6e1dee2273baf245219">I2C1_IRQHandler</a> (void)</td></tr>
+<tr class="memdesc:ac45e5675f6f4e6e1dee2273baf245219"><td class="mdescLeft">&#160;</td><td class="mdescRight">IRQ handler for I2C1.  <a href="i2c_8c.html#ac45e5675f6f4e6e1dee2273baf245219">More...</a><br /></td></tr>
+<tr class="separator:ac45e5675f6f4e6e1dee2273baf245219"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35fbfb8375e460fbf88dab45c6f27f7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="i2c_8c.html#a35fbfb8375e460fbf88dab45c6f27f7b">i2c_start</a> (I2C_TypeDef *i2c, <a class="el" href="struct_i2_c___s_t_a_r_t___s_t_r_u_c_t.html">I2C_START_STRUCT</a> *start_struct)</td></tr>
+<tr class="memdesc:a35fbfb8375e460fbf88dab45c6f27f7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to start an I2C read or write operation.  <a href="i2c_8c.html#a35fbfb8375e460fbf88dab45c6f27f7b">More...</a><br /></td></tr>
+<tr class="separator:a35fbfb8375e460fbf88dab45c6f27f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c8d87c63fb7209a552d6b46c9e68d41"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="i2c_8c.html#a8c8d87c63fb7209a552d6b46c9e68d41">i2c_idle</a> (void)</td></tr>
+<tr class="memdesc:a8c8d87c63fb7209a552d6b46c9e68d41"><td class="mdescLeft">&#160;</td><td class="mdescRight">I2C Idle indicates whether the I2C state machine is in the IDLE state.  <a href="i2c_8c.html#a8c8d87c63fb7209a552d6b46c9e68d41">More...</a><br /></td></tr>
+<tr class="separator:a8c8d87c63fb7209a552d6b46c9e68d41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains all the i2c functions. </p>
@@ -136,6 +142,28 @@ Functions</h2></td></tr>
 
 <p>IRQ handler for I2C0. </p>
 <p>This is an IRQ handler for I2C0.</p>
+<dl class="section note"><dt>Note</dt><dd>This is currently configured to handle the interrupts for ACK, NACK, RXDATAV, and MSTOP. Interrupts are enabled in the i2c_open function. </dd></dl>
+
+</div>
+</div>
+<a id="ac45e5675f6f4e6e1dee2273baf245219"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac45e5675f6f4e6e1dee2273baf245219">&#9670;&nbsp;</a></span>I2C1_IRQHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void I2C1_IRQHandler </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>IRQ handler for I2C1. </p>
+<p>This is an IRQ handler for I2C1.</p>
 <dl class="section note"><dt>Note</dt><dd>This is currently configured to handle the interrupts for ACK, NACK, RXDATAV, and MSTOP. Interrupts are enabled in the i2c_open function. </dd></dl>
 
 </div>
@@ -176,6 +204,27 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a8c8d87c63fb7209a552d6b46c9e68d41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c8d87c63fb7209a552d6b46c9e68d41">&#9670;&nbsp;</a></span>i2c_idle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool i2c_idle </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>I2C Idle indicates whether the I2C state machine is in the IDLE state. </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns TRUE if the state machine is IDLE and the i2c peripheral is IDLE, and FALSE if the state machine is busy (ie. any state other than IDLE) or the i2c peripheral is not idle. </dd></dl>
 
 </div>
 </div>
@@ -225,8 +274,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ad1659e44b78b060c7efcaf42f3ded0f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1659e44b78b060c7efcaf42f3ded0f9">&#9670;&nbsp;</a></span>i2c_start()</h2>
+<a id="a35fbfb8375e460fbf88dab45c6f27f7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35fbfb8375e460fbf88dab45c6f27f7b">&#9670;&nbsp;</a></span>i2c_start()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,38 +289,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>device_address</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>read</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>command_code</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *&#160;</td>
-          <td class="paramname"><em>data_arr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>data_arr_length</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>event</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_i2_c___s_t_a_r_t___s_t_r_u_c_t.html">I2C_START_STRUCT</a> *&#160;</td>
+          <td class="paramname"><em>start_struct</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -288,12 +307,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">i2c</td><td>Pointer to the base peripheral address of the I2C peripheral being used. The Pearl Gecko has 2 I2C peripherals.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">device_address</td><td>The 7 bit i2c slave device address of the peripheral device.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">read</td><td>Boolean parameter indicating whether to start a read or write command</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">command_code</td><td>The 8 bit command code to write to the peripheral device.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">data_arr</td><td>A pointer to an array to store data from read commands.</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">data_arr_length</td><td>the length of the array to store data (number of bytes).</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">event</td><td>The scheduler event associated with a completed i2c operation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">start_struct</td><td>Pointer to the i2c start struct which contains all parameters required to configure the i2c payload for a read or write sequence. </td></tr>
   </table>
   </dd>
 </dl>

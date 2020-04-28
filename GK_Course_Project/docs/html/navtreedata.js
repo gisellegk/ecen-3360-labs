@@ -22,7 +22,7 @@ for the JavaScript code in this file
 */
 var NAVTREE =
 [
-  [ "GK CB_ Lab", "index.html", [
+  [ "GK Course Project", "index.html", [
     [ "Modules", "modules.html", "modules" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
@@ -40,7 +40,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_s_i7021_8c.html"
+"_h_w__delay_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

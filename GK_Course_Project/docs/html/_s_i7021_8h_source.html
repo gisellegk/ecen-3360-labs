@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GK CB_ Lab: src/Header_files/SI7021.h Source File</title>
+<title>GK Course Project: src/Header_files/SI7021.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,9 +25,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">GK CB_ Lab
+   <div id="projectname">GK Course Project
    </div>
-   <div id="projectbrief">DDL Lab 6</div>
+   <div id="projectbrief">DDL Final Project</div>
   </td>
  </tr>
  </tbody>
@@ -99,34 +99,88 @@ $(document).ready(function(){initNavTree('_s_i7021_8h_source.html',''); initResi
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// defined files</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">//***********************************************************************************</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#define     SI7021_DEV_ADDR         0x40</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#define     SI7021_TEMP_NO_HOLD     0xF3</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#define     SI7021_I2C_FREQ         I2C_FREQ_FAST_MAX // 400kHz max.</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define     SI7021_I2C_CLK_RATIO    i2cClockHLRAsymetric // 6:3 for fast max. try standard if having issues.</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">// for the Si7021 ROUTELOC value is #15 for both SDA and SCL (i2c0 on pc10 and 11)</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#define     SI7021_SCL_LOC          _I2C_ROUTELOC0_SCLLOC_LOC15</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define     SI7021_SCL_EN           true</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#define     SI7021_SDA_LOC          _I2C_ROUTELOC0_SDALOC_LOC15</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#define     SI7021_SDA_EN           true</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#define     SI7021_I2C              I2C0  // PG i2c peripheral</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#define     SI7021_REF_FREQ         0 // HF peripheral clock</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#define     SI7021_NUM_BYTES_TEMP_CHECKSUM      6</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define     SI7021_NUM_BYTES_TEMP_NOCHECKSUM    2</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">//***********************************************************************************</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">// global variables</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">//***********************************************************************************</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s_i7021_8c.html#aac5cc7d71b3f6518c327b87578f8b582">si7021_i2c_open</a>();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s_i7021_8c.html#a7eff0f38ab2bd59897e5c6c9f5612d06">si7021_read</a>(uint32_t event);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">float</span> <a class="code" href="_s_i7021_8c.html#a47da3d72611f48d725d2d1a9a1642186">si7021_last_temp_f</a>();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* SRC_HEADER_FILES_SI7021_H_ */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#define     SI7021_I2C_FREQ         I2C_FREQ_FAST_MAX // 400kHz max.</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#define     SI7021_I2C_CLK_RATIO    i2cClockHLRAsymetric // 6:3 for fast max. try standard if having issues.</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// for the Si7021 ROUTELOC value is #15 for both SDA and SCL (i2c0 on pc10 and 11)</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#define     SI7021_SCL_LOC          SI7021_SCL_LOC_i2c1</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#define     SI7021_SCL_LOC_i2c0         _I2C_ROUTELOC0_SCLLOC_LOC15</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define     SI7021_SCL_LOC_i2c1         _I2C_ROUTELOC0_SCLLOC_LOC19</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#define     SI7021_SCL_EN           true</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#define     SI7021_SDA_LOC          SI7021_SDA_LOC_i2c1</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#define     SI7021_SDA_LOC_i2c0         _I2C_ROUTELOC0_SDALOC_LOC15</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#define     SI7021_SDA_LOC_i2c1         _I2C_ROUTELOC0_SDALOC_LOC19</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#define     SI7021_SDA_EN           true</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#define     SI7021_I2C              I2C1 // default i2c for app use</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define     SI7021_REF_FREQ         0 // HF peripheral clock</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// Command Codes</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#define     SI7021_TEMP_NO_HOLD     0xF3</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#define     SI7021_RH_NO_HOLD       0xF5</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#define     SI7021_TEMP_FROM_RH     0xE0</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#define     SI7021_WRITE_UR1        0xE6</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#define     SI7021_READ_UR1         0xE7</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#define     SI7021_SNA_MSB          0xFA</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#define     SI7021_SNA_LSB          0x0F</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#define     SI7021_SNB_MSB          0xFC</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#define     SI7021_SNB_LSB          0xC9</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">//Data Lengths</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#define     SI7021_NUM_BYTES_TEMP_CHECKSUM      3</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#define     SI7021_NUM_BYTES_TEMP_NOCHECKSUM    2</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#define     SI7021_NUM_BYTES_RH_CHECKSUM        3</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#define     SI7021_NUM_BYTES_RH_NOCHECKSUM      2</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#define     SI7021_NUM_BYTES_TEMP_FROM_RH       2</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#define     SI7021_NUM_BYTES_USER_REG           1</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#define     SI7021_NUM_BYTES_SNA                8</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#define     SI7021_NUM_BYTES_SNB                6</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#define     SI7021_MAX_READ_BYTES               8</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#define     SI7021_MAX_WRITE_BYTES              8</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#define     SI7021_MAX_CC_LENGTH                2</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">//***********************************************************************************</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">// global variables</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">//***********************************************************************************</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s_i7021_8c.html#a62799fe160b8cf9a44c1eee1ddb5a7ea">si7021_i2c_open</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s_i7021_8c.html#a8a40b88612c95b6f956a3225a94b8e08">si7021_read</a>(uint8_t command_code_length, uint8_t read_length, uint32_t event);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s_i7021_8c.html#a9289176d0efa76a3a8826b31df74e3cf">si7021_write</a>(uint8_t command_code_length, uint8_t write_length, uint32_t event);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">// r/w presets</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s_i7021_8c.html#a327d1c017e3bfc65c161f7e2aa92d4b2">si7021_read_rh</a>(uint32_t event);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s_i7021_8c.html#a1a3284d5be42abde516c5a8d1a6a9765">si7021_read_temp</a>(uint32_t event);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s_i7021_8c.html#a4c6b72d9f695f1149f0e41f4da1003a6">si7021_read_rh_temp</a>(uint32_t event);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s_i7021_8c.html#abf9b77c455d1eb418ce13002247508ac">si7021_write_ur1</a>(uint8_t <span class="keywordtype">byte</span>, uint32_t event);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s_i7021_8c.html#a198b2d6c5d6c4e1196947cf2c8a5344f">si7021_read_ur1</a>(uint32_t event);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s_i7021_8c.html#a44acd4388d34fe474d94a122aee5207f">si7021_read_SNB</a>(uint32_t event);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">// get last data</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keywordtype">float</span> <a class="code" href="_s_i7021_8c.html#ad80fa8c50f766de89ba3a34c9c1b2e1d">si7021_convert_temp_f</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keywordtype">float</span> <a class="code" href="_s_i7021_8c.html#adc9d7aed78644e10e6f73624d46cfce1">si7021_convert_rh</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">// TDD test</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s_i7021_8c.html#aa3d664068bbd1d2c5e89ff659c1eb0ad">si7021_test</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* SRC_HEADER_FILES_SI7021_H_ */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="a_s_i7021_8c_html_a47da3d72611f48d725d2d1a9a1642186"><div class="ttname"><a href="_s_i7021_8c.html#a47da3d72611f48d725d2d1a9a1642186">si7021_last_temp_f</a></div><div class="ttdeci">float si7021_last_temp_f()</div><div class="ttdoc">A function which returns the most recently read temperature measurement.</div><div class="ttdef"><b>Definition:</b> SI7021.c:118</div></div>
-<div class="ttc" id="a_s_i7021_8c_html_aac5cc7d71b3f6518c327b87578f8b582"><div class="ttname"><a href="_s_i7021_8c.html#aac5cc7d71b3f6518c327b87578f8b582">si7021_i2c_open</a></div><div class="ttdeci">void si7021_i2c_open()</div><div class="ttdoc">A function to open an I2C port for the SI7021 Temperature and Humidity Sensor onboard the Pearl Gecko...</div><div class="ttdef"><b>Definition:</b> SI7021.c:55</div></div>
-<div class="ttc" id="a_s_i7021_8c_html_a7eff0f38ab2bd59897e5c6c9f5612d06"><div class="ttname"><a href="_s_i7021_8c.html#a7eff0f38ab2bd59897e5c6c9f5612d06">si7021_read</a></div><div class="ttdeci">void si7021_read(uint32_t event)</div><div class="ttdoc">A function that requests the temperature to be read from the SI7021 Temperature and Humidity sensor.</div><div class="ttdef"><b>Definition:</b> SI7021.c:97</div></div>
+<div class="ttc" id="a_s_i7021_8c_html_abf9b77c455d1eb418ce13002247508ac"><div class="ttname"><a href="_s_i7021_8c.html#abf9b77c455d1eb418ce13002247508ac">si7021_write_ur1</a></div><div class="ttdeci">void si7021_write_ur1(uint8_t byte, uint32_t event)</div><div class="ttdoc">A function to initiate a Write User Register 1.</div><div class="ttdef"><b>Definition:</b> SI7021.c:289</div></div>
+<div class="ttc" id="a_s_i7021_8c_html_adc9d7aed78644e10e6f73624d46cfce1"><div class="ttname"><a href="_s_i7021_8c.html#adc9d7aed78644e10e6f73624d46cfce1">si7021_convert_rh</a></div><div class="ttdeci">float si7021_convert_rh(void)</div><div class="ttdoc">A function which returns the most recently read relative humidity measurement.</div><div class="ttdef"><b>Definition:</b> SI7021.c:358</div></div>
+<div class="ttc" id="a_s_i7021_8c_html_a327d1c017e3bfc65c161f7e2aa92d4b2"><div class="ttname"><a href="_s_i7021_8c.html#a327d1c017e3bfc65c161f7e2aa92d4b2">si7021_read_rh</a></div><div class="ttdeci">void si7021_read_rh(uint32_t event)</div><div class="ttdoc">A function to initiate a Read RH Sequence.</div><div class="ttdef"><b>Definition:</b> SI7021.c:199</div></div>
+<div class="ttc" id="a_s_i7021_8c_html_a62799fe160b8cf9a44c1eee1ddb5a7ea"><div class="ttname"><a href="_s_i7021_8c.html#a62799fe160b8cf9a44c1eee1ddb5a7ea">si7021_i2c_open</a></div><div class="ttdeci">void si7021_i2c_open(void)</div><div class="ttdoc">A function to open an I2C port for the SI7021 Temperature and Humidity Sensor onboard the Pearl Gecko...</div><div class="ttdef"><b>Definition:</b> SI7021.c:78</div></div>
+<div class="ttc" id="a_s_i7021_8c_html_a8a40b88612c95b6f956a3225a94b8e08"><div class="ttname"><a href="_s_i7021_8c.html#a8a40b88612c95b6f956a3225a94b8e08">si7021_read</a></div><div class="ttdeci">void si7021_read(uint8_t command_code_length, uint8_t read_length, uint32_t event)</div><div class="ttdoc">A function that requests a read from the SI7021 Temperature and Humidity sensor.</div><div class="ttdef"><b>Definition:</b> SI7021.c:128</div></div>
+<div class="ttc" id="a_s_i7021_8c_html_a44acd4388d34fe474d94a122aee5207f"><div class="ttname"><a href="_s_i7021_8c.html#a44acd4388d34fe474d94a122aee5207f">si7021_read_SNB</a></div><div class="ttdeci">void si7021_read_SNB(uint32_t event)</div><div class="ttdoc">A function to initiate a Read Serial Number sequence part B.</div><div class="ttdef"><b>Definition:</b> SI7021.c:311</div></div>
+<div class="ttc" id="a_s_i7021_8c_html_ad80fa8c50f766de89ba3a34c9c1b2e1d"><div class="ttname"><a href="_s_i7021_8c.html#ad80fa8c50f766de89ba3a34c9c1b2e1d">si7021_convert_temp_f</a></div><div class="ttdeci">float si7021_convert_temp_f(void)</div><div class="ttdoc">A function which returns the most recently read temperature measurement.</div><div class="ttdef"><b>Definition:</b> SI7021.c:336</div></div>
+<div class="ttc" id="a_s_i7021_8c_html_aa3d664068bbd1d2c5e89ff659c1eb0ad"><div class="ttname"><a href="_s_i7021_8c.html#aa3d664068bbd1d2c5e89ff659c1eb0ad">si7021_test</a></div><div class="ttdeci">void si7021_test(void)</div><div class="ttdoc">SI7021 Read/Write test. This is a Test Driven Development routine to verify that the I2C peripheral i...</div><div class="ttdef"><b>Definition:</b> SI7021.c:394</div></div>
+<div class="ttc" id="a_s_i7021_8c_html_a4c6b72d9f695f1149f0e41f4da1003a6"><div class="ttname"><a href="_s_i7021_8c.html#a4c6b72d9f695f1149f0e41f4da1003a6">si7021_read_rh_temp</a></div><div class="ttdeci">void si7021_read_rh_temp(uint32_t event)</div><div class="ttdoc">A function to initiate a Read Temperature from Previous RH Sequence.</div><div class="ttdef"><b>Definition:</b> SI7021.c:248</div></div>
+<div class="ttc" id="a_s_i7021_8c_html_a9289176d0efa76a3a8826b31df74e3cf"><div class="ttname"><a href="_s_i7021_8c.html#a9289176d0efa76a3a8826b31df74e3cf">si7021_write</a></div><div class="ttdeci">void si7021_write(uint8_t command_code_length, uint8_t write_length, uint32_t event)</div><div class="ttdoc">A function that requests a write from the SI7021 Temperature and Humidity sensor.</div><div class="ttdef"><b>Definition:</b> SI7021.c:164</div></div>
+<div class="ttc" id="a_s_i7021_8c_html_a1a3284d5be42abde516c5a8d1a6a9765"><div class="ttname"><a href="_s_i7021_8c.html#a1a3284d5be42abde516c5a8d1a6a9765">si7021_read_temp</a></div><div class="ttdeci">void si7021_read_temp(uint32_t event)</div><div class="ttdoc">A function to initiate a Read Temperature Sequence.</div><div class="ttdef"><b>Definition:</b> SI7021.c:224</div></div>
+<div class="ttc" id="a_s_i7021_8c_html_a198b2d6c5d6c4e1196947cf2c8a5344f"><div class="ttname"><a href="_s_i7021_8c.html#a198b2d6c5d6c4e1196947cf2c8a5344f">si7021_read_ur1</a></div><div class="ttdeci">void si7021_read_ur1(uint32_t event)</div><div class="ttdoc">A function to initiate a Read User Register 1.</div><div class="ttdef"><b>Definition:</b> SI7021.c:268</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

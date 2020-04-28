@@ -24,12 +24,6 @@
 //***********************************************************************************
 
 
-
-//***********************************************************************************
-// global variables
-//***********************************************************************************
-
-
 //***********************************************************************************
 // private variables
 //***********************************************************************************
@@ -243,23 +237,9 @@ void I2C1_IRQHandler(void){
  *  Pointer to the base peripheral address of the I2C peripheral being used. The
  * 	Pearl Gecko has 2 I2C peripherals.
  *
- * 	@param[in] device_address
- * 	 The 7 bit i2c slave device address of the peripheral device.
- *
- * 	@param[in] read
- * 	 Boolean parameter indicating whether to start a read or write command
- *
- * 	@param[in] command_code
- * 	 The 8 bit command code to write to the peripheral device.
- *
- * 	@param[in] data_arr
- * 	 A pointer to an array to store data from read commands.
- *
- * 	@param[in] data_arr_length
- * 	 the length of the array to store data (number of bytes).
- *
- * 	@param[in] event
- * 	 The scheduler event associated with a completed i2c operation.
+ * @param[in] start_struct
+ * 	Pointer to the i2c start struct which contains all parameters required to
+ * 	configure the i2c payload for a read or write sequence.
  *
  ******************************************************************************/
 
@@ -305,7 +285,6 @@ void i2c_start(I2C_TypeDef *i2c, I2C_START_STRUCT* start_struct){
  * @details
  *	This function defines the behavior of the state machine in each state
  *	when an ACK is received.
- *
  *
  ******************************************************************************/
 static void i2c_ack(){
@@ -360,7 +339,6 @@ static void i2c_ack(){
  *	This function defines the behavior of the state machine in each state
  *	when a NACK is received.
  *
- *
  ******************************************************************************/
 static void i2c_nack(){
 	switch(i2c_payload.state){
@@ -402,7 +380,6 @@ static void i2c_nack(){
  * @details
  *	This function defines the behavior of the state machine in each state
  *	when data becomes available in the receive buffer.
- *
  *
  ******************************************************************************/
 static void i2c_rxdatav(){
@@ -451,7 +428,6 @@ static void i2c_rxdatav(){
  *	This function defines the behavior of the state machine in each state
  *	when a STOP condition has been successfully transmitted.
  *
- *
  ******************************************************************************/
 static void i2c_mstop(){
 	switch(i2c_payload.state){
@@ -486,8 +462,9 @@ static void i2c_mstop(){
  *   I2C Idle indicates whether the I2C state machine is in the IDLE state
  *
  * @return
- * 	 Returns TRUE if the state machine is IDLE and FALSE if the state machine is
- * 	 busy (ie. any state other than IDLE)
+ * 	 Returns TRUE if the state machine is IDLE and the i2c peripheral is IDLE,
+ * 	 and FALSE if the state machine is busy (ie. any state other than IDLE)
+ * 	 or the i2c peripheral is not idle.
  *
  ******************************************************************************/
 

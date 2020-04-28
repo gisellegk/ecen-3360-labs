@@ -1,3 +1,11 @@
+/**
+ * @file cmu.c
+ * @author Giselle Koo
+ * @date April 26, 2020
+ * @brief Contains all the functions to set up the clock management unit.
+ *
+ */
+
 //***********************************************************************************
 // Include files
 //***********************************************************************************
